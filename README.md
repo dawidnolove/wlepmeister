@@ -1,8 +1,8 @@
 Instalacja
 bash
 # Klonowanie repozytorium
-git clone https://github.com/twoj-username/image-layer-editor.git
-cd image-layer-editor
+git clone https://github.com/dawidnolove/wlepmeister.git
+cd wlepmeister
 
 # Instalacja zależności
 pip install -r requirements.txt
