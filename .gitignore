@@ -1,0 +1,7 @@
+venv/
+#system files
+.DS_Store
+__pycache__/
+*.pyc
+# IDE files
+.vscode/s
