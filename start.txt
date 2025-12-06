@@ -1,0 +1,7 @@
+git clone https://github.com/dawidnolove/wlepmeister.git
+
+python3 -m venv venv
+source venv/bin/activate
+venv/bin/activate (windows)
+
+pip install -r requirements.txt

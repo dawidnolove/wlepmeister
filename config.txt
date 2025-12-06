@@ -1,4 +1,28 @@
 python3 -m venv venv
 source venv/bin/activate
 
+------------
+
 git config --global user.email or name "..."
+git init
+git add .
+git commit -m "..."
+git remote add origin "... .git" (raz)
+git push -u origin main (ustawienie trackingu tylko raz, --force nadpisuje) 
+
+------------
+
+which python
+git remote -v
+git status (wskazuje branch)
+git add
+git commit -m 
+git push
+
+------------
+
+git clone "..."
+git pull origin main (--allow-unrelated-histories)
+git checkout --ours or --theirs "..." to choose file version to keep
+
+git config pull.rebase false (merge)
