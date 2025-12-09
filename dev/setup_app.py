@@ -1,6 +1,6 @@
 from setuptools import setup
 
-APP = ['src/main.py']
+APP = ['../src/main.py']
 OPTIONS = {
     'argv_emulation': True,
     'iconfile': '../media/icon_py_128.ico',  # jeśli chcesz ikonę
