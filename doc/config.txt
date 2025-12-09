@@ -5,6 +5,7 @@ source venv/bin/activate
 
 git config --global user.email or name "..."
 git init
+git config --global --add safe.directory "..."
 git add .
 git commit -m "..."
 git remote add origin "... .git" (raz)

@@ -9,12 +9,7 @@ from PIL import Image, ImageTk
 class ImageObject:
     """single image"""
     def __init__(self, image_path, x=0, y=0):
-        self.image_path = image_path
-        self.pil_image = Image.open(image_path)
-        self.x = x
-        self.y = y
-        self.canvas_id = None
-        self.photo = None  # Przechowuje PhotoImage
+        {} # przechowywanie photo image
         
 class Layer:
     """layer with images"""
