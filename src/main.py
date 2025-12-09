@@ -1,23 +1,26 @@
+import os 
+import sys
 import tkinter as tk
 from tkinter import filedialog, Canvas
 from PIL import Image, ImageTk
-import os 
-import sys
+
+
+def resource_path(relative_path):
+    """ absolutna sciezka do budowy"""
+    try:
+        base_path = sys._MEIPASS 
+    except AttributeError:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path) # ścieżka ikony dla paska zadań oraz okna
 
 # ============================================
 # KLASY
 # ============================================
-def resource_path(relative_path):
-    """Zwraca poprawną ścieżkę zarówno w dev, jak i po spakowaniu PyInstallerem."""
-    if hasattr(sys, '_MEIPASS'):  # tryb EXE
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
-
 
 class ImageObject:
     """single image"""
     def __init__(self, image_path, x=0, y=0):
-        {} # przechowywanie photo image
+        {} # przechowywanie photo image potem
         
 class Layer:
     """layer with images"""
@@ -32,15 +35,13 @@ class Layer:
 
 class Wlepmeister:
     def __init__(self):
-        # Okno główne
-        self.okno = tk.Tk()
-        icon_path = resource_path("media/icon_py_128.ico")
-        self.okno.iconbitmap(icon_path)
-        self.okno.title("WLEPMEISTER")
+        self.okno = tk.Tk() # okno główne tkinter
+        icon_path = resource_path("media/icon_py_128.ico") # ikona pliku
+        self.okno.iconbitmap(icon_path) # ikona dla paska zadań oraz okna
+        self.okno.title("WLEPMEISTER") # title
         self.okno.geometry("900x600")
-        self.okno.configure(bg="#1a1a1a")
+        self.okno.configure(bg="#99ac9d")
         
-        # Dane aplikacji
         self.layers = []
         self.active_layer = None
         self.dragging_object = None

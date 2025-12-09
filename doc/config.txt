@@ -29,6 +29,13 @@ git checkout --ours or --theirs "..." to choose file version to keep
 git config pull.rebase false (merge)
 
 ------------
-
-cd dev
+.APP(directory with .app)
+python src/setup_app.py py2app #setup_app ma opcje dla py2apps
+.PKG(onefile)
+pkgbuild --install-location /Applications --component dist/Wlepmeister.app dist/Wlepmeister-9.12.pkg
+.MSI(onefile)
+python setup_msi.py bdist_msi #setup_msi ma konfiguracje cx_freeze
+.EXE(onefile)
 python -m PyInstaller --clean --onefile --windowed --icon=../media/icon_py_128.ico --add-data "media;media" ../src/main.py
+.BIN(onefile)
+pyinstaller --onefile src/main.py

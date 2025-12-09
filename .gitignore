@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 # IDE files
 .vscode/s
+#doc/config.txt
