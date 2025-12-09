@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 
 
 def resource_path(relative_path):
-    """ absolutna sciezka do budowy"""
+    """ absolute path for build"""
     try:
         base_path = sys._MEIPASS 
     except AttributeError:
@@ -61,12 +61,10 @@ class Wlepmeister:
     def setup_ui(self):
         """UI build up"""
 
-        # ===== menu =====
-        menu_bar = tk.Menu(self.okno)
+        menu_bar = tk.Menu(self.okno)# menu pasek
         self.okno.config(menu=menu_bar)
 
-        # Plik
-        file_menu = tk.Menu(menu_bar, tearoff=0)
+        file_menu = tk.Menu(menu_bar, tearoff=0) # file_menu czyli plik
         menu_bar.add_cascade(label="File", menu=file_menu)
         
         file_menu.add_command(label="New window", command=self.new_window)
@@ -79,8 +77,7 @@ class Wlepmeister:
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.okno.destroy)
 
-        # Edit
-        edit_menu = tk.Menu(menu_bar, tearoff=0)
+        edit_menu = tk.Menu(menu_bar, tearoff=0)# edycja
         menu_bar.add_cascade(label="Edit", menu=edit_menu)
 
         edit_menu.add_command(label="Undo")
