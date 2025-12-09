@@ -1,10 +1,18 @@
 import tkinter as tk
 from tkinter import filedialog, Canvas
 from PIL import Image, ImageTk
+import os 
+import sys
 
 # ============================================
 # KLASY
 # ============================================
+def resource_path(relative_path):
+    """Zwraca poprawną ścieżkę zarówno w dev, jak i po spakowaniu PyInstallerem."""
+    if hasattr(sys, '_MEIPASS'):  # tryb EXE
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
 
 class ImageObject:
     """single image"""
@@ -26,6 +34,8 @@ class Wlepmeister:
     def __init__(self):
         # Okno główne
         self.okno = tk.Tk()
+        icon_path = resource_path("media/icon_py_128.ico")
+        self.okno.iconbitmap(icon_path)
         self.okno.title("WLEPMEISTER")
         self.okno.geometry("900x600")
         self.okno.configure(bg="#1a1a1a")

@@ -27,3 +27,8 @@ git pull origin main (--allow-unrelated-histories)
 git checkout --ours or --theirs "..." to choose file version to keep
 
 git config pull.rebase false (merge)
+
+------------
+
+cd dev
+python -m PyInstaller --clean --onefile --windowed --icon=../media/icon_py_128.ico --add-data "media;media" ../src/main.py
