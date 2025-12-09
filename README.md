@@ -1,7 +1,6 @@
 Copyright © 2025
 https://wlepmeister.great-site.net/
-Installation
-bash
+
 # Repo cloning
 git clone https://github.com/dawidnolove/wlepmeister.git
 cd wlepmeister

@@ -31,7 +31,7 @@ class Wlepmeister:
     def __init__(self):
         # Okno główne
         self.okno = tk.Tk()
-        self.okno.title("Wlepmeister MVP")
+        self.okno.title("WLEPMEISTER")
         self.okno.geometry("900x600")
         self.okno.configure(bg="#1a1a1a")
         
@@ -44,9 +44,13 @@ class Wlepmeister:
         
         self.setup_ui()
         
-    def dodaj_warstwe(self): pass  # na pozniejszy rozwoj
-    def dodaj_obraz(self): pass    # na pozniejszy rozwoj
-    def eksportuj(self): pass      # na pozniejszy rozwoj
+    def add_layer(self): pass  # na pozniejszy rozwoj
+    def add_image(self): pass    # na pozniejszy rozwoj
+    def export(self): pass      # na pozniejszy rozwoj
+    def print(self): pass      # na pozniejszy rozwoj
+    def new_window(self): pass      # na pozniejszy rozwoj
+    def properties(self): pass      # na pozniejszy rozwoj (black theme, grid autoskalowalny)
+
 
     def setup_ui(self):
         """UI build up"""
@@ -57,20 +61,26 @@ class Wlepmeister:
 
         # Plik
         file_menu = tk.Menu(menu_bar, tearoff=0)
-        file_menu.add_command(label="New layer", command=self.dodaj_warstwe)
-        file_menu.add_command(label="Add image", command=self.dodaj_obraz)
+        menu_bar.add_cascade(label="File", menu=file_menu)
+        
+        file_menu.add_command(label="New window", command=self.new_window)
+        file_menu.add_command(label="Import image", command=self.add_image)
         file_menu.add_separator()
-        file_menu.add_command(label="Export as PNG", command=self.eksportuj)
+        file_menu.add_command(label="Export", command=self.export)
+        file_menu.add_command(label="Print", command=self.print)
+        file_menu.add_separator()
+        file_menu.add_command(label="Properties", command=self.properties)
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.okno.destroy)
 
-        menu_bar.add_cascade(label="File", menu=file_menu)
-
         # Edit
         edit_menu = tk.Menu(menu_bar, tearoff=0)
+        menu_bar.add_cascade(label="Edit", menu=edit_menu)
+
         edit_menu.add_command(label="Undo")
         edit_menu.add_command(label="Redo")
-        menu_bar.add_cascade(label="Edit", menu=edit_menu)
+        edit_menu.add_separator()
+        edit_menu.add_command(label="New layer", command=self.add_layer)
 
     def run(self):
         """execution"""
