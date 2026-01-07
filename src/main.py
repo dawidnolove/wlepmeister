@@ -34,16 +34,15 @@ class Layer:
 # ============================================
 
 class Wlepmeister:
-    def __init__(self):
-        self.okno = tk.Tk() # okno główne tkinter
-        icon_path = resource_path("media/icon_py_128.ico") # ikona pliku
+    def __init__(self): # metoda kontruktota init
+        self.okno = tk.Tk() # okno główne tkinter tworzymy
+        icon_path = resource_path("../media/icon_py_128.ico") # ikona pliku
         self.okno.iconbitmap(icon_path) # ikona dla paska zadań oraz okna
         self.okno.title("WLEPMEISTER") # title
         self.okno.geometry("900x600")
-        self.okno.configure(bg="#99ac9d")
         
         self.layers = []
-        self.active_layer = None
+        self.active_layer = None # jedna domyślnie musi być
         self.dragging_object = None
         self.drag_start_x = 0
         self.drag_start_y = 0
@@ -54,15 +53,32 @@ class Wlepmeister:
     def add_image(self): pass    # na pozniejszy rozwoj
     def export(self): pass      # na pozniejszy rozwoj
     def print(self): pass      # na pozniejszy rozwoj
-    def new_window(self): pass      # na pozniejszy rozwoj
+    def new_window(self): 
+        self.__init__()
     def properties(self): pass      # na pozniejszy rozwoj (black theme, grid autoskalowalny)
-
+    def toggle_alpha(self):
+        # alpha = self.okno.attributes("-alpha")
+        # if alpha == 1:
+        #     self.okno.attributes("-alpha", 0.5) # przezroczystość okna i menu
+        # if alpha == 0.5:
+        #     self.okno.attributes("-alpha", 0.75)
+        # if alpha == 0.75:
+        #     self.okno.attributes("-alpha", 1)
+        alpha_levels = [0.5,0.75,1]
+        current_alpha_levels = self.okno.attributes("-alpha")
+        next_alpha_level = (alpha_levels.index(current) + 1) % len(alpha_levels)
+        self.okno.attributes("-alpha", alpha_levels[next_alpha_level])
+    def show_message(self,text,duration=2000): # 
+        message = tk.Label(self.okno, text=text, bg="#e3fca9", fg="#000000")
+        message.place(relx=1.0,rely=1.0,anchor="se")
+        self.okno.after(duration,message.destroy) # znika po czasie
 
     def setup_ui(self):
-        """UI build up"""
+        """UI building"""
 
         menu_bar = tk.Menu(self.okno)# menu pasek
-        self.okno.config(menu=menu_bar)
+        self.okno.configure(bg="#fca9b8")
+        self.okno.configure(menu=menu_bar)
 
         file_menu = tk.Menu(menu_bar, tearoff=0) # file_menu czyli plik
         menu_bar.add_cascade(label="File", menu=file_menu)
@@ -75,7 +91,7 @@ class Wlepmeister:
         file_menu.add_separator()
         file_menu.add_command(label="Properties", command=self.properties)
         file_menu.add_separator()
-        file_menu.add_command(label="Exit", command=self.okno.destroy)
+        file_menu.add_command(label="Close window", command=self.okno.destroy)
 
         edit_menu = tk.Menu(menu_bar, tearoff=0)# edycja
         menu_bar.add_cascade(label="Edit", menu=edit_menu)
@@ -85,6 +101,10 @@ class Wlepmeister:
         edit_menu.add_separator()
         edit_menu.add_command(label="New layer", command=self.add_layer)
 
+        view_menu = tk.Menu(menu_bar, tearoff=0)
+        menu_bar.add_cascade(label="View", menu=view_menu)
+        view_menu.add_command(label="Alpha", command=self.toggle_alpha)
+
     def run(self):
         """execution"""
         self.okno.mainloop()
@@ -93,6 +113,6 @@ class Wlepmeister:
 # EXEKUCJA
 # ============================================
 
-if __name__ == "__main__":
-    app = Wlepmeister()
-    app.run()
+# if __name__ == "__main__":
+app = Wlepmeister()
+app.run()
