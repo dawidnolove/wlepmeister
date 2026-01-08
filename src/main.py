@@ -66,7 +66,7 @@ class Wlepmeister:
         #     self.okno.attributes("-alpha", 1)
         alpha_levels = [0.5,0.75,1]
         current_alpha_levels = self.okno.attributes("-alpha")
-        next_alpha_level = (alpha_levels.index(current) + 1) % len(alpha_levels)
+        next_alpha_level = (alpha_levels.index(current_alpha_levels) + 1) % len(alpha_levels)
         self.okno.attributes("-alpha", alpha_levels[next_alpha_level])
     def show_message(self,text,duration=2000): # 
         message = tk.Label(self.okno, text=text, bg="#e3fca9", fg="#000000")
