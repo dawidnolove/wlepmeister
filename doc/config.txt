@@ -1,0 +1,43 @@
+python3 -m venv venv
+source venv/bin/activate
+
+------------
+
+git config --global user.email or name "..."
+git init
+git config --global --add safe.directory "..."
+git add .
+git commit -m "..."
+git remote add origin "... .git" (raz)
+git push -u origin main (ustawienie trackingu tylko raz, --force nadpisuje) 
+
+------------
+
+which python
+git remote -v
+git status (wskazuje branch)
+git add
+git commit -m 
+git push
+
+------------
+
+git clone "..."
+git pull origin main (--allow-unrelated-histories)
+git checkout --ours or --theirs "..." to choose file version to keep
+
+git config pull.rebase false (merge)
+git merge --strategy-option=ours origin/main
+
+------------
+.APP(directory with .app)
+python src/setup_app.py py2app #setup_app ma opcje dla py2apps tylko na macos/linux
+.PKG(onefile)
+pkgbuild --install-location /Applications --component dist/Wlepmeister.app dist/Wlepmeister-9.12.pkg
+.MSI(onefile)
+python setup_msi.py bdist_msi #setup_msi ma konfiguracje cx_freeze
+.EXE(onefile)
+python -m PyInstaller --clean --onefile --windowed --icon=../media/icon_py_128.ico --add-data "media;media" ../src/main.py
+.BIN(onefile)
+
+python -m PyInstaller --onefile main.py
