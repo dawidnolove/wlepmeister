@@ -1,6 +1,10 @@
 ﻿import tkinter as tk
 from tkinter import messagebox, simpledialog
 
+MAX_LAYER_NAME_CHARS = 18
+DEFAULT_MAX_LAYERS_WIDTH = 250
+LAYER_NUDGE_STEP = 10
+
 
 class Layer:
     def __init__(self, name):
@@ -109,6 +113,21 @@ class LayerUIMixin:
         self.refresh_layers_ui()
         self._request_canvas_redraw()
 
+    def move_active_layer(self, dx, dy):
+        if self.active_layer is None:
+            return False
+
+        moved_any = False
+        for obj in self.active_layer.objects:
+            if hasattr(obj, "x") and hasattr(obj, "y"):
+                obj.x += dx
+                obj.y += dy
+                moved_any = True
+
+        if moved_any:
+            self._request_canvas_redraw()
+        return moved_any
+
     def refresh_layers_ui(self):
         if self.layers_container is None:
             return
@@ -118,7 +137,7 @@ class LayerUIMixin:
         for index, layer in reversed(list(enumerate(self.layers))):
             self.create_layer_widget(layer, index)
 
-    def truncate_text(self, text, max_chars=18):
+    def truncate_text(self, text, max_chars=MAX_LAYER_NAME_CHARS):
         if len(text) <= max_chars:
             return text
         return text[: max_chars - 3] + "..."
@@ -193,7 +212,7 @@ class LayerUIMixin:
 
         Tooltip(delete_btn, "Usun layer")
 
-    def setup_layers_panel(self, parent, max_layers_width=250):
+    def setup_layers_panel(self, parent, max_layers_width=DEFAULT_MAX_LAYERS_WIDTH):
         self.left_panel = tk.Frame(
             parent,
             width=max_layers_width,
@@ -209,6 +228,24 @@ class LayerUIMixin:
         add_btn = tk.Button(header, text="+", command=self.add_layer)
         add_btn.pack(side="right", padx=5)
         Tooltip(add_btn, "Dodaj nowy layer")
+
+        move_right_btn = tk.Button(
+            header,
+            text="→",
+            width=2,
+            command=lambda: self.move_active_layer(LAYER_NUDGE_STEP, 0),
+        )
+        move_right_btn.pack(side="right")
+        Tooltip(move_right_btn, "Przesun aktywna warstwe w prawo")
+
+        move_left_btn = tk.Button(
+            header,
+            text="←",
+            width=2,
+            command=lambda: self.move_active_layer(-LAYER_NUDGE_STEP, 0),
+        )
+        move_left_btn.pack(side="right")
+        Tooltip(move_left_btn, "Przesun aktywna warstwe w lewo")
 
         self.layers_container = tk.Frame(self.left_panel, bg="#dddddd")
         self.layers_container.pack(fill="both", expand=True)
