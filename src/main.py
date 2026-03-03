@@ -10,6 +10,10 @@ from auth_ui import AuthUIMixin
 from db import save_user_png_export
 from layers_mod import LayerUIMixin
 
+import subprocess, sys
+
+#subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"]) # bez potrzeby uruchamina osobno
+
 APP_TITLE = "WLEPMEISTER"
 APP_GEOMETRY = "900x600"
 LAYERS_PANEL_MAX_WIDTH = 250
