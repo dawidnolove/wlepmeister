@@ -215,3 +215,15 @@ def load_user_cloud_project(username, project_name):
         )
     except PyMongoError:
         return None
+
+
+def delete_user_cloud_project(username, project_name):
+    if not _cloud_ready() or not username or not project_name:
+        return False
+    try:
+        result = CLOUD_PROJECTS_COLLECTION.delete_one(
+            {"username": username, "project_name": project_name}
+        )
+    except PyMongoError:
+        return False
+    return result.deleted_count > 0

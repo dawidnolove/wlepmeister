@@ -28,7 +28,7 @@ class AuthUIMixin:
         main_frame = tk.Frame(login_window, padx=30, pady=20)
         main_frame.pack(expand=True, fill="both")
 
-        tk.Label(main_frame, text="🔐 Logowanie", font=("Arial", 16, "bold")).pack(pady=(0, 12))
+        tk.Label(main_frame, text="đź” Logowanie", font=("Arial", 16, "bold")).pack(pady=(0, 12))
         tk.Label(main_frame, text="Username:", anchor="w").pack(fill="x")
         username_entry = tk.Entry(main_frame, font=("Arial", 12))
         username_entry.pack(fill="x", pady=(2, 8), ipady=4)
@@ -49,6 +49,8 @@ class AuthUIMixin:
                 self.okno.title(f"{self.APP_TITLE} - {username}")
                 messagebox.showinfo("Success", f"Logged in as {username}")
                 login_window.destroy()
+                if hasattr(self, "on_login_state_changed"):
+                    self.on_login_state_changed()
                 return
             messagebox.showerror("Error", "Wrong username or password")
 
@@ -71,7 +73,7 @@ class AuthUIMixin:
         main_frame = tk.Frame(register_window, padx=30, pady=20)
         main_frame.pack(expand=True, fill="both")
 
-        tk.Label(main_frame, text="📝 Rejestracja", font=("Arial", 16, "bold")).pack(pady=(0, 20))
+        tk.Label(main_frame, text="đź“ť Rejestracja", font=("Arial", 16, "bold")).pack(pady=(0, 20))
         tk.Label(main_frame, text="Username:", anchor="w").pack(fill="x")
         username_entry = tk.Entry(main_frame, font=("Arial", 12))
         username_entry.pack(fill="x", pady=(2, 10), ipady=5)
@@ -112,5 +114,7 @@ class AuthUIMixin:
             self.current_user = None
             self.okno.title(self.APP_TITLE)
             messagebox.showinfo("Logout", "Logged out")
+            if hasattr(self, "on_login_state_changed"):
+                self.on_login_state_changed()
             return
         messagebox.showinfo("Info", "No user logged in")

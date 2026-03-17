@@ -1,4 +1,4 @@
-﻿import tkinter as tk
+import tkinter as tk
 from tkinter import messagebox, simpledialog
 
 MAX_LAYER_NAME_CHARS = 18
@@ -285,4 +285,3 @@ class LayerUIMixin:
         redraw = getattr(self, "redraw_canvas", None)
         if callable(redraw):
             redraw()
-
