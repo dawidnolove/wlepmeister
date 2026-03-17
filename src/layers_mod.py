@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox, simpledialog
 
+from ui_dialogs import ask_yes_no, prompt_string
 MAX_LAYER_NAME_CHARS = 18
 DEFAULT_MAX_LAYERS_WIDTH = 250
 LAYER_NUDGE_STEP = 10
@@ -98,11 +98,7 @@ class LayerUIMixin:
         self.rename_layer(layer)
 
     def rename_layer(self, layer):
-        new_name = simpledialog.askstring(
-            "Rename layer",
-            "New layer name:",
-            initialvalue=layer.name,
-        )
+        new_name = prompt_string(self.okno, "Rename layer", "New layer name:", initial_value=layer.name)
         if new_name:
             layer.name = new_name
             self.refresh_layers_ui()
@@ -121,9 +117,12 @@ class LayerUIMixin:
         if layer not in self.layers:
             return
 
-        confirm = messagebox.askyesno(
+        confirm = ask_yes_no(
+            self.okno,
             "Potwierdzenie usuniecia",
             f"Czy na pewno chcesz usunac warstwe:\n\n'{layer.name}' ?",
+            yes_text="Tak",
+            no_text="Nie",
         )
 
         if not confirm:

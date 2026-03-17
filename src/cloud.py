@@ -1,7 +1,6 @@
 import io
 import tkinter as tk
 import zlib
-from tkinter import messagebox
 
 from PIL import Image
 
@@ -13,6 +12,7 @@ from db import (
 )
 from image_object import ImageObject
 from layers_mod import Layer
+from ui_dialogs import ask_yes_no, show_error, show_info, show_warning
 
 
 class CloudUIMixin:
@@ -89,7 +89,7 @@ class CloudUIMixin:
         def submit():
             value = name_var.get().strip()
             if not value:
-                messagebox.showerror("Invalid name", "Project name cannot be empty.", parent=dialog)
+                show_error(dialog, "Invalid name", "Project name cannot be empty.")
                 return
             result["name"] = value
             dialog.destroy()
@@ -119,7 +119,7 @@ class CloudUIMixin:
 
     def save_project_to_cloud(self):
         if not self.current_user:
-            messagebox.showwarning("Login required", "Log in first to save project in cloud.")
+            show_warning(self.okno, "Login required", "Log in first to save project in cloud.")
             return
 
         project_name = self._ask_cloud_project_name()
@@ -135,7 +135,7 @@ class CloudUIMixin:
         if saved:
             self.show_message("Project saved to cloud", duration=2500)
             return
-        messagebox.showerror("Cloud save failed", "Could not save project to cloud.")
+        show_error(self.okno, "Cloud save failed", "Could not save project to cloud.")
 
     def _pick_cloud_project_name(self, project_names):
         picker = self._create_cloud_dialog("Open from cloud", 430, 360)
@@ -188,19 +188,11 @@ class CloudUIMixin:
             if not selection:
                 return
             name = listbox.get(selection[0])
-            confirm = messagebox.askyesno(
-                "Confirmation",
-                f"Delete project:\n\n{name}",
-                parent=picker,
-            )
+            confirm = ask_yes_no(picker, "Confirmation", f"Delete project:\n\n{name}")
             if not confirm:
                 return
             if not delete_user_cloud_project(self.current_user, name):
-                messagebox.showerror(
-                    "Delete failed",
-                    "Could not delete project.",
-                    parent=picker,
-                )
+                show_error(picker, "Delete failed", "Could not delete project.")
                 return
             listbox.delete(selection[0])
             if listbox.size() > 0:
@@ -282,12 +274,12 @@ class CloudUIMixin:
 
     def open_project_from_cloud(self):
         if not self.current_user:
-            messagebox.showwarning("Login required", "Log in first to open project from cloud.")
+            show_warning(self.okno, "Login required", "Log in first to open project from cloud.")
             return
 
         project_names = list_user_cloud_projects(self.current_user)
         if not project_names:
-            messagebox.showinfo("No projects", "No cloud projects for this account yet.")
+            show_info(self.okno, "No projects", "No cloud projects for this account yet.")
             return
 
         selected_name = self._pick_cloud_project_name(project_names)
@@ -296,13 +288,13 @@ class CloudUIMixin:
 
         project_doc = load_user_cloud_project(self.current_user, selected_name)
         if not project_doc:
-            messagebox.showerror("Open failed", "Could not load selected project.")
+            show_error(self.okno, "Open failed", "Could not load selected project.")
             return
 
         try:
             self._apply_cloud_project(project_doc)
         except Exception as exc:
-            messagebox.showerror("Open failed", f"Project data is invalid:\n{exc}")
+            show_error(self.okno, "Open failed", f"Project data is invalid:\n{exc}")
             return
 
         self.show_message(f"Opened cloud project: {selected_name}", duration=2500)

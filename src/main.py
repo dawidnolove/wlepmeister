@@ -1,7 +1,7 @@
 import os
 import sys
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 
 from PIL import Image
 
@@ -9,6 +9,7 @@ from auth_ui import AuthUIMixin
 from cloud import CloudUIMixin
 from image_object import ImageObject
 from layers_mod import LayerUIMixin
+from ui_dialogs import show_error, show_toast
 
 APP_TITLE = "WLEPMEISTER"
 APP_GEOMETRY = "900x600"
@@ -56,13 +57,13 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
             return
 
         if not file_path.lower().endswith(".png"):
-            messagebox.showerror("Invalid file", "Only PNG files are allowed.")
+            show_error(self.okno, "Invalid file", "Only PNG files are allowed.")
             return
 
         try:
             image_obj = ImageObject(file_path, x=30, y=30)
         except Exception as exc:
-            messagebox.showerror("Import failed", f"Could not import image:\n{exc}")
+            show_error(self.okno, "Import failed", f"Could not import image:\n{exc}")
             return
 
         # Each imported image gets its own dedicated layer so it can be managed independently.
@@ -121,9 +122,7 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
         self.okno.attributes("-alpha", ALPHA_LEVELS[next_alpha_index])
 
     def show_message(self, text, duration=2000):
-        message = tk.Label(self.okno, text=text, bg="#e3fca9", fg="#000000")
-        message.place(relx=1.0, rely=1.0, anchor="se")
-        self.okno.after(duration, message.destroy)
+        show_toast(self.okno, text, duration=duration)
 
     def on_login_state_changed(self):
         self.build_menus()
