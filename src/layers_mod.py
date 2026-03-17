@@ -55,6 +55,7 @@ class LayerUIMixin:
         self.layers = []
         self.active_layer = None
         self.layers_container = None
+        self._pending_layer_select_job = None
 
     def add_layer(self):
         name = f"Layer {len(self.layers) + 1}"
@@ -67,6 +68,34 @@ class LayerUIMixin:
     def set_active_layer(self, layer):
         self.active_layer = layer
         self.refresh_layers_ui()
+
+    def _cancel_pending_layer_select(self):
+        if self._pending_layer_select_job and self.layers_container is not None:
+            try:
+                self.layers_container.after_cancel(self._pending_layer_select_job)
+            except tk.TclError:
+                pass
+        self._pending_layer_select_job = None
+
+    def _handle_layer_single_click(self, layer):
+        self._cancel_pending_layer_select()
+        if self.layers_container is None:
+            self.set_active_layer(layer)
+            return
+        # Delay single-click action so double-click can trigger rename first.
+        self._pending_layer_select_job = self.layers_container.after(
+            200,
+            lambda l=layer: self._apply_layer_single_click(l),
+        )
+
+    def _apply_layer_single_click(self, layer):
+        self._pending_layer_select_job = None
+        self.set_active_layer(layer)
+
+    def _handle_layer_double_click(self, layer):
+        self._cancel_pending_layer_select()
+        self.set_active_layer(layer)
+        self.rename_layer(layer)
 
     def rename_layer(self, layer):
         new_name = simpledialog.askstring(
@@ -178,11 +207,13 @@ class LayerUIMixin:
 
         Tooltip(name_label, layer.name)
 
-        frame.bind("<Button-1>", lambda e: self.set_active_layer(layer))
-        drag_label.bind("<Button-1>", lambda e: self.set_active_layer(layer))
-        name_label.bind("<Button-1>", lambda e: self.set_active_layer(layer))
+        frame.bind("<Button-1>", lambda e, l=layer: self._handle_layer_single_click(l))
+        drag_label.bind("<Button-1>", lambda e, l=layer: self._handle_layer_single_click(l))
+        name_label.bind("<Button-1>", lambda e, l=layer: self._handle_layer_single_click(l))
 
-        name_label.bind("<Double-Button-1>", lambda e: self.rename_layer(layer))
+        frame.bind("<Double-Button-1>", lambda e, l=layer: self._handle_layer_double_click(l))
+        drag_label.bind("<Double-Button-1>", lambda e, l=layer: self._handle_layer_double_click(l))
+        name_label.bind("<Double-Button-1>", lambda e, l=layer: self._handle_layer_double_click(l))
 
         up_btn = tk.Button(
             frame,

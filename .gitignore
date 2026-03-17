@@ -3,6 +3,10 @@ venv/
 .DS_Store
 __pycache__/
 *.pyc
+# local env
+.env
+.env.*
+!.env.example
 # IDE files
 .vscode/s
 #doc/config.txt
