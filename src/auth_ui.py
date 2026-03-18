@@ -1,21 +1,22 @@
 import tkinter as tk
 
 from db import create_user, login_user, user_exists
-from ui_dialogs import (
-    BODY_FONT,
-    BUTTON_ACTIVE,
-    BUTTON_BG,
-    DIALOG_BG,
-    TEXT_COLOR,
-    TITLE_FONT,
-    show_error,
-    show_info,
-)
+from theme_colors import COLORS, FONTS
+from ui_dialogs import show_error, show_info
 
 LOGIN_WINDOW_WIDTH = 350
-LOGIN_WINDOW_HEIGHT = 240
+LOGIN_WINDOW_HEIGHT = 260
 REGISTER_WINDOW_WIDTH = 350
-REGISTER_WINDOW_HEIGHT = 220
+REGISTER_WINDOW_HEIGHT = 240
+
+_DIALOG_BG = COLORS["surface"]
+_TEXT = COLORS["text"]
+_MUTED = COLORS["muted"]
+_ENTRY_BG = COLORS["surface_alt"]
+_BTN_BG = COLORS["accent"]
+_BTN_ACTIVE = COLORS["accent_dark"]
+_TITLE_FONT = FONTS["section"]
+_BODY_FONT = FONTS["body"]
 
 
 class AuthUIMixin:
@@ -32,33 +33,37 @@ class AuthUIMixin:
     def open_login_window(self):
         login_window = tk.Toplevel(self.okno)
         login_window.title("Login")
-        login_window.configure(bg=DIALOG_BG)
+        login_window.configure(bg=_DIALOG_BG)
         self._center_child_window(login_window, LOGIN_WINDOW_WIDTH, LOGIN_WINDOW_HEIGHT)
 
-        main_frame = tk.Frame(login_window, padx=30, pady=20, bg=DIALOG_BG)
+        main_frame = tk.Frame(login_window, padx=30, pady=20, bg=_DIALOG_BG)
         main_frame.pack(expand=True, fill="both")
 
         tk.Label(
             main_frame,
             text="Logowanie",
-            font=TITLE_FONT,
-            bg=DIALOG_BG,
-            fg=TEXT_COLOR,
+            font=_TITLE_FONT,
+            bg=_DIALOG_BG,
+            fg=_TEXT,
         ).pack(pady=(0, 12))
         tk.Label(
             main_frame,
             text="Username:",
             anchor="w",
-            bg=DIALOG_BG,
-            fg=TEXT_COLOR,
-            font=BODY_FONT,
+            bg=_DIALOG_BG,
+            fg=_MUTED,
+            font=_BODY_FONT,
         ).pack(fill="x")
         username_entry = tk.Entry(
             main_frame,
-            font=("Arial", 12),
+            font=FONTS["body"],
             relief="flat",
-            bg=BUTTON_BG,
-            fg=TEXT_COLOR,
+            bg=_ENTRY_BG,
+            fg=_TEXT,
+            insertbackground=COLORS["accent"],
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
         )
         username_entry.pack(fill="x", pady=(2, 8), ipady=4)
         username_entry.focus()
@@ -67,17 +72,21 @@ class AuthUIMixin:
             main_frame,
             text="Password:",
             anchor="w",
-            bg=DIALOG_BG,
-            fg=TEXT_COLOR,
-            font=BODY_FONT,
+            bg=_DIALOG_BG,
+            fg=_MUTED,
+            font=_BODY_FONT,
         ).pack(fill="x")
         password_entry = tk.Entry(
             main_frame,
             show="*",
-            font=("Arial", 12),
+            font=FONTS["body"],
             relief="flat",
-            bg=BUTTON_BG,
-            fg=TEXT_COLOR,
+            bg=_ENTRY_BG,
+            fg=_TEXT,
+            insertbackground=COLORS["accent"],
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
         )
         password_entry.pack(fill="x", pady=(2, 12), ipady=4)
 
@@ -101,12 +110,16 @@ class AuthUIMixin:
             main_frame,
             text="Login",
             command=attempt_login,
-            font=("Arial", 11),
+            font=_BODY_FONT,
             width=15,
             pady=5,
-            bg=BUTTON_BG,
-            activebackground=BUTTON_ACTIVE,
+            bg=_BTN_BG,
+            fg="#ffffff",
+            activebackground=_BTN_ACTIVE,
+            activeforeground="#ffffff",
             relief="flat",
+            bd=0,
+            cursor="hand2",
         ).pack()
 
         login_window.bind("<Return>", lambda _event: attempt_login())
@@ -114,33 +127,37 @@ class AuthUIMixin:
     def open_register_window(self):
         register_window = tk.Toplevel(self.okno)
         register_window.title("Register")
-        register_window.configure(bg=DIALOG_BG)
+        register_window.configure(bg=_DIALOG_BG)
         self._center_child_window(register_window, REGISTER_WINDOW_WIDTH, REGISTER_WINDOW_HEIGHT)
 
-        main_frame = tk.Frame(register_window, padx=30, pady=20, bg=DIALOG_BG)
+        main_frame = tk.Frame(register_window, padx=30, pady=20, bg=_DIALOG_BG)
         main_frame.pack(expand=True, fill="both")
 
         tk.Label(
             main_frame,
             text="Rejestracja",
-            font=TITLE_FONT,
-            bg=DIALOG_BG,
-            fg=TEXT_COLOR,
+            font=_TITLE_FONT,
+            bg=_DIALOG_BG,
+            fg=_TEXT,
         ).pack(pady=(0, 20))
         tk.Label(
             main_frame,
             text="Username:",
             anchor="w",
-            bg=DIALOG_BG,
-            fg=TEXT_COLOR,
-            font=BODY_FONT,
+            bg=_DIALOG_BG,
+            fg=_MUTED,
+            font=_BODY_FONT,
         ).pack(fill="x")
         username_entry = tk.Entry(
             main_frame,
-            font=("Arial", 12),
+            font=FONTS["body"],
             relief="flat",
-            bg=BUTTON_BG,
-            fg=TEXT_COLOR,
+            bg=_ENTRY_BG,
+            fg=_TEXT,
+            insertbackground=COLORS["accent"],
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
         )
         username_entry.pack(fill="x", pady=(2, 10), ipady=5)
         username_entry.focus()
@@ -149,17 +166,21 @@ class AuthUIMixin:
             main_frame,
             text="Password:",
             anchor="w",
-            bg=DIALOG_BG,
-            fg=TEXT_COLOR,
-            font=BODY_FONT,
+            bg=_DIALOG_BG,
+            fg=_MUTED,
+            font=_BODY_FONT,
         ).pack(fill="x")
         password_entry = tk.Entry(
             main_frame,
             show="*",
-            font=("Arial", 12),
+            font=FONTS["body"],
             relief="flat",
-            bg=BUTTON_BG,
-            fg=TEXT_COLOR,
+            bg=_ENTRY_BG,
+            fg=_TEXT,
+            insertbackground=COLORS["accent"],
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
         )
         password_entry.pack(fill="x", pady=(2, 20), ipady=5)
 
@@ -182,12 +203,16 @@ class AuthUIMixin:
             main_frame,
             text="Register",
             command=attempt_register,
-            font=("Arial", 11),
+            font=_BODY_FONT,
             width=15,
             pady=5,
-            bg=BUTTON_BG,
-            activebackground=BUTTON_ACTIVE,
+            bg=_BTN_BG,
+            fg="#ffffff",
+            activebackground=_BTN_ACTIVE,
+            activeforeground="#ffffff",
             relief="flat",
+            bd=0,
+            cursor="hand2",
         ).pack()
 
         register_window.bind("<Return>", lambda _event: attempt_register())

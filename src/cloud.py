@@ -12,7 +12,20 @@ from db import (
 )
 from image_object import ImageObject
 from layers_mod import Layer
+from theme_colors import COLORS, FONTS
 from ui_dialogs import ask_yes_no, show_error, show_info, show_warning
+
+_BG = COLORS["surface"]
+_TEXT = COLORS["text"]
+_MUTED = COLORS["muted"]
+_ENTRY_BG = COLORS["surface_alt"]
+_BTN_PRIMARY_BG = COLORS["accent"]
+_BTN_PRIMARY_ACTIVE = COLORS["accent_dark"]
+_BTN_SECONDARY_BG = COLORS["surface_alt"]
+_BTN_SECONDARY_ACTIVE = COLORS["border"]
+_LIST_SELECT = COLORS["select_bg"]
+_TITLE_FONT = FONTS["section"]
+_BODY_FONT = FONTS["body"]
 
 
 class CloudUIMixin:
@@ -52,7 +65,7 @@ class CloudUIMixin:
         dialog.title(title)
         dialog.transient(self.okno)
         dialog.grab_set()
-        dialog.configure(bg="#fca9b8")
+        dialog.configure(bg=_BG)
         self._center_child_window(dialog, width, height)
         return dialog
 
@@ -60,30 +73,41 @@ class CloudUIMixin:
         dialog = self._create_cloud_dialog("Save to cloud", 420, 200)
         result = {"name": None}
 
-        container = tk.Frame(dialog, bg="#fca9b8", padx=16, pady=14)
+        container = tk.Frame(dialog, bg=_BG, padx=16, pady=14)
         container.pack(fill="both", expand=True)
 
         tk.Label(
             container,
             text="Save project to cloud",
-            bg="#fca9b8",
-            fg="#1f1f1f",
-            font=("Arial", 13, "bold"),
+            bg=_BG,
+            fg=_TEXT,
+            font=_TITLE_FONT,
         ).pack(anchor="w", pady=(0, 10))
         tk.Label(
             container,
             text="Project name:",
-            bg="#fca9b8",
-            fg="#1f1f1f",
-            font=("Arial", 10),
+            bg=_BG,
+            fg=_MUTED,
+            font=_BODY_FONT,
         ).pack(anchor="w")
 
         name_var = tk.StringVar()
-        entry = tk.Entry(container, textvariable=name_var, font=("Arial", 11), relief="flat")
+        entry = tk.Entry(
+            container,
+            textvariable=name_var,
+            font=_BODY_FONT,
+            relief="flat",
+            bg=_ENTRY_BG,
+            fg=_TEXT,
+            insertbackground=COLORS["accent"],
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
+        )
         entry.pack(fill="x", pady=(6, 12), ipady=5)
         entry.focus_set()
 
-        buttons = tk.Frame(container, bg="#fca9b8")
+        buttons = tk.Frame(container, bg=_BG)
         buttons.pack(fill="x")
 
         def submit():
@@ -98,19 +122,29 @@ class CloudUIMixin:
             buttons,
             text="Cancel",
             width=10,
-            bg="#f1f1f1",
-            activebackground="#e7e7e7",
+            bg=_BTN_SECONDARY_BG,
+            fg=_TEXT,
+            activebackground=_BTN_SECONDARY_ACTIVE,
+            activeforeground=_TEXT,
             command=dialog.destroy,
             relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=_BODY_FONT,
         ).pack(side="right")
         tk.Button(
             buttons,
             text="Save",
             width=10,
-            bg="#ffffff",
-            activebackground="#f2f2f2",
+            bg=_BTN_PRIMARY_BG,
+            fg="#ffffff",
+            activebackground=_BTN_PRIMARY_ACTIVE,
+            activeforeground="#ffffff",
             command=submit,
             relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=_BODY_FONT,
         ).pack(side="right", padx=(0, 8))
 
         dialog.bind("<Return>", lambda _event: submit())
@@ -142,33 +176,37 @@ class CloudUIMixin:
 
         selected_name = {"value": None}
 
-        container = tk.Frame(picker, bg="#fca9b8", padx=14, pady=12)
+        container = tk.Frame(picker, bg=_BG, padx=14, pady=12)
         container.pack(fill="both", expand=True)
 
         tk.Label(
             container,
             text="Open project from cloud",
-            bg="#fca9b8",
-            fg="#1f1f1f",
-            font=("Arial", 13, "bold"),
+            bg=_BG,
+            fg=_TEXT,
+            font=_TITLE_FONT,
         ).pack(anchor="w", pady=(0, 10))
 
         tk.Label(
             container,
             text="Choose project:",
-            bg="#fca9b8",
-            fg="#1f1f1f",
-            font=("Arial", 10),
+            bg=_BG,
+            fg=_MUTED,
+            font=_BODY_FONT,
         ).pack(anchor="w", pady=(0, 4))
 
         listbox = tk.Listbox(
             container,
             height=10,
-            bg="#ffffff",
-            fg="#1f1f1f",
-            selectbackground="#f08093",
+            bg=_ENTRY_BG,
+            fg=_TEXT,
+            selectbackground=_LIST_SELECT,
+            selectforeground=COLORS["select_fg"],
             relief="flat",
-            highlightthickness=0,
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
+            font=_BODY_FONT,
         )
         listbox.pack(fill="both", expand=True, pady=(0, 10))
         for name in project_names:
@@ -198,34 +236,49 @@ class CloudUIMixin:
             if listbox.size() > 0:
                 listbox.selection_set(0)
 
-        buttons = tk.Frame(container, bg="#fca9b8")
+        buttons = tk.Frame(container, bg=_BG)
         buttons.pack(fill="x")
         tk.Button(
             buttons,
             text="Cancel",
             width=10,
-            bg="#f1f1f1",
-            activebackground="#e7e7e7",
+            bg=_BTN_SECONDARY_BG,
+            fg=_TEXT,
+            activebackground=_BTN_SECONDARY_ACTIVE,
+            activeforeground=_TEXT,
             command=picker.destroy,
             relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=_BODY_FONT,
         ).pack(side="right")
         tk.Button(
             buttons,
             text="Open",
             width=10,
-            bg="#ffffff",
-            activebackground="#f2f2f2",
+            bg=_BTN_PRIMARY_BG,
+            fg="#ffffff",
+            activebackground=_BTN_PRIMARY_ACTIVE,
+            activeforeground="#ffffff",
             command=choose_selected,
             relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=_BODY_FONT,
         ).pack(side="right", padx=(0, 8))
         tk.Button(
             buttons,
             text="Delete",
             width=10,
-            bg="#ffffff",
-            activebackground="#f2f2f2",
+            bg=COLORS["danger"],
+            fg="#ffffff",
+            activebackground=COLORS["danger_dark"],
+            activeforeground="#ffffff",
             command=delete_selected,
             relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=_BODY_FONT,
         ).pack(side="right", padx=(0, 8))
 
         listbox.bind("<Double-Button-1>", lambda _event: choose_selected())

@@ -9,6 +9,7 @@ from auth_ui import AuthUIMixin
 from cloud import CloudUIMixin
 from image_object import ImageObject
 from layers_mod import LayerUIMixin
+from theme_colors import COLORS, FONTS
 from ui_dialogs import show_error, show_toast
 
 APP_TITLE = "WLEPMEISTER"
@@ -166,7 +167,7 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
     def setup_ui(self):
         self.build_menus()
 
-        self.okno.configure(bg="#fca9b8")
+        self.okno.configure(bg=COLORS["bg"])
         self.setup_layers_panel(self.okno, max_layers_width=LAYERS_PANEL_MAX_WIDTH)
         self.setup_workspace_panel(self.okno)
 
@@ -190,12 +191,12 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
         self.layer_drag_anchor = None
 
     def setup_workspace_panel(self, parent):
-        self.workspace_frame = tk.Frame(parent, bg="#2b2b2b")
+        self.workspace_frame = tk.Frame(parent, bg=COLORS["bg"])
         self.workspace_frame.pack(side="left", fill="both", expand=True)
 
         self.canvas = tk.Canvas(
             self.workspace_frame,
-            bg="#f5f5f5",
+            bg=COLORS["canvas"],
             highlightthickness=0,
         )
         self.canvas.pack(fill="both", expand=True, padx=10, pady=10)

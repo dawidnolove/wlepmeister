@@ -1,13 +1,14 @@
 import tkinter as tk
 
-DIALOG_BG = "#cfcfcf"
-TEXT_COLOR = "#1f1f1f"
-BUTTON_BG = "#ffffff"
-BUTTON_BG_ALT = "#f1f1f1"
-BUTTON_ACTIVE = "#f2f2f2"
+from theme_colors import COLORS, FONTS
 
-TITLE_FONT = ("Arial", 13, "bold")
-BODY_FONT = ("Arial", 10)
+DIALOG_BG = COLORS["surface"]
+TEXT_COLOR = COLORS["text"]
+BUTTON_BG = COLORS["accent"]
+BUTTON_BG_ALT = COLORS["surface_alt"]
+BUTTON_ACTIVE = COLORS["accent_dark"]
+TITLE_FONT = FONTS["section"]
+BODY_FONT = FONTS["body"]
 
 
 def _center_child_window(parent, window, width, height):
@@ -66,15 +67,27 @@ def _build_dialog(parent, title, message, width, height, buttons, default=None):
         return _inner
 
     for label, value, style in buttons:
-        bg = BUTTON_BG if style == "primary" else BUTTON_BG_ALT
+        if style == "primary":
+            bg = COLORS["accent"]
+            fg = "#ffffff"
+            active_bg = COLORS["accent_dark"]
+        else:
+            bg = COLORS["surface_alt"]
+            fg = COLORS["text"]
+            active_bg = COLORS["border"]
         tk.Button(
             buttons_frame,
             text=label,
             width=10,
             bg=bg,
-            activebackground=BUTTON_ACTIVE,
+            fg=fg,
+            activebackground=active_bg,
+            activeforeground=fg,
             command=make_cmd(value),
             relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=BODY_FONT,
         ).pack(side="right", padx=(0, 8))
 
     dialog.protocol("WM_DELETE_WINDOW", make_cmd(default))
@@ -165,7 +178,18 @@ def prompt_string(parent, title, message, initial_value=""):
     ).pack(anchor="w")
 
     value_var = tk.StringVar(value=initial_value)
-    entry = tk.Entry(container, textvariable=value_var, font=("Arial", 11), relief="flat")
+    entry = tk.Entry(
+        container,
+        textvariable=value_var,
+        font=FONTS["body"],
+        relief="flat",
+        bg=COLORS["surface_alt"],
+        fg=COLORS["text"],
+        insertbackground=COLORS["accent"],
+        highlightthickness=1,
+        highlightbackground=COLORS["border"],
+        highlightcolor=COLORS["border_focus"],
+    )
     entry.pack(fill="x", pady=(6, 12), ipady=5)
     entry.focus_set()
 
@@ -184,19 +208,29 @@ def prompt_string(parent, title, message, initial_value=""):
         buttons,
         text="Cancel",
         width=10,
-        bg=BUTTON_BG_ALT,
-        activebackground=BUTTON_ACTIVE,
+        bg=COLORS["surface_alt"],
+        fg=COLORS["text"],
+        activebackground=COLORS["border"],
+        activeforeground=COLORS["text"],
         command=dialog.destroy,
         relief="flat",
+        bd=0,
+        cursor="hand2",
+        font=BODY_FONT,
     ).pack(side="right")
     tk.Button(
         buttons,
         text="Save",
         width=10,
-        bg=BUTTON_BG,
-        activebackground=BUTTON_ACTIVE,
+        bg=COLORS["accent"],
+        fg="#ffffff",
+        activebackground=COLORS["accent_dark"],
+        activeforeground="#ffffff",
         command=submit,
         relief="flat",
+        bd=0,
+        cursor="hand2",
+        font=BODY_FONT,
     ).pack(side="right", padx=(0, 8))
 
     dialog.bind("<Return>", lambda _event: submit())
@@ -205,6 +239,14 @@ def prompt_string(parent, title, message, initial_value=""):
 
 
 def show_toast(parent, text, duration=2000):
-    message = tk.Label(parent, text=text, bg=BUTTON_BG_ALT, fg=TEXT_COLOR, font=BODY_FONT)
+    message = tk.Label(
+        parent,
+        text=text,
+        bg=COLORS["toast_bg"],
+        fg=COLORS["toast_text"],
+        font=BODY_FONT,
+        padx=12,
+        pady=6,
+    )
     message.place(relx=1.0, rely=1.0, anchor="se")
     parent.after(duration, message.destroy)
