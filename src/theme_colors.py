@@ -18,6 +18,11 @@ COLORS = {
     "surface":        "#1e2435",   # dialog / card surfaces
     "surface_alt":    "#252c3d",   # slightly lighter surface (hover, stripe)
     "canvas":         "#111520",   # canvas drawing area
+    "title_bar_bg":   "#000000",   # OS title bar (Windows)
+    "menu_bg":        "#000000",   # top menu bar background (File/Edit/etc.)
+    "menu_fg":        "#ffffff",   # top menu bar text
+    "menu_active_bg": "#000000",   # top menu bar hover/active background
+    "menu_active_fg": "#ffffff",   # top menu bar hover/active text
 
     # ── typography ───────────────────────────────────────────────────────────
     "text":           "#e8eaf6",   # primary text

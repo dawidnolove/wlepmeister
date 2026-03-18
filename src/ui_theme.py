@@ -28,6 +28,44 @@ def apply_root_style(root):
     root.configure(bg=COLORS["bg"])
 
 
+def _hex_to_colorref(hex_color):
+    hex_color = hex_color.lstrip("#")
+    if len(hex_color) != 6:
+        return None
+    red = int(hex_color[0:2], 16)
+    green = int(hex_color[2:4], 16)
+    blue = int(hex_color[4:6], 16)
+    return red | (green << 8) | (blue << 16)
+
+
+def apply_titlebar_color(root):
+    if sys.platform != "win32":
+        return
+    try:
+        import ctypes
+        from ctypes import wintypes
+    except Exception:
+        return
+    try:
+        root.update_idletasks()
+        hwnd = wintypes.HWND(root.winfo_id())
+    except Exception:
+        return
+
+    color = _hex_to_colorref(COLORS["title_bar_bg"])
+    if color is None:
+        return
+
+    DWMWA_CAPTION_COLOR = 35
+    value = ctypes.c_int(color)
+    ctypes.windll.dwmapi.DwmSetWindowAttribute(
+        hwnd,
+        DWMWA_CAPTION_COLOR,
+        ctypes.byref(value),
+        ctypes.sizeof(value),
+    )
+
+
 def center_child_window(parent, window, width, height):
     parent.update_idletasks()
     main_x = parent.winfo_x()

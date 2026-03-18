@@ -11,6 +11,7 @@ from image_object import ImageObject
 from layers_mod import LayerUIMixin
 from theme_colors import COLORS, FONTS
 from ui_dialogs import show_error, show_toast
+from ui_theme import apply_titlebar_color
 
 APP_TITLE = "WLEPMEISTER"
 APP_GEOMETRY = "900x600"
@@ -35,6 +36,7 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
             self.okno.iconbitmap(icon_path)
         self.okno.title(APP_TITLE)
         self.okno.geometry(APP_GEOMETRY)
+        apply_titlebar_color(self.okno)
 
         self.APP_TITLE = APP_TITLE
         self.dragging_object = None
@@ -130,10 +132,10 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
 
     def build_menus(self):
         _menu_kw = dict(
-            bg=COLORS["panel"],
-            fg=COLORS["text"],
-            activebackground=COLORS["accent"],
-            activeforeground="#ffffff",
+            bg=COLORS["menu_bg"],
+            fg=COLORS["menu_fg"],
+            activebackground=COLORS["menu_active_bg"],
+            activeforeground=COLORS["menu_active_fg"],
             font=FONTS["body"],
         )
         _submenu_kw = dict(
