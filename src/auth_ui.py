@@ -3,6 +3,7 @@ import tkinter as tk
 from db import create_user, login_user, user_exists
 from theme_colors import COLORS, FONTS
 from ui_dialogs import show_error, show_info
+from ui_theme import build_button
 
 LOGIN_WINDOW_WIDTH = 350
 LOGIN_WINDOW_HEIGHT = 260
@@ -106,20 +107,12 @@ class AuthUIMixin:
                 return
             show_error(self.okno, "Error", "Wrong username or password")
 
-        tk.Button(
+        build_button(
             main_frame,
             text="Login",
             command=attempt_login,
-            font=_BODY_FONT,
             width=15,
             pady=5,
-            bg=_BTN_BG,
-            fg="#ffffff",
-            activebackground=_BTN_ACTIVE,
-            activeforeground="#ffffff",
-            relief="flat",
-            bd=0,
-            cursor="hand2",
         ).pack()
 
         login_window.bind("<Return>", lambda _event: attempt_login())
@@ -199,20 +192,12 @@ class AuthUIMixin:
                 return
             show_error(self.okno, "Error", "Could not create account")
 
-        tk.Button(
+        build_button(
             main_frame,
             text="Register",
             command=attempt_register,
-            font=_BODY_FONT,
             width=15,
             pady=5,
-            bg=_BTN_BG,
-            fg="#ffffff",
-            activebackground=_BTN_ACTIVE,
-            activeforeground="#ffffff",
-            relief="flat",
-            bd=0,
-            cursor="hand2",
         ).pack()
 
         register_window.bind("<Return>", lambda _event: attempt_register())
