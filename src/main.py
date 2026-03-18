@@ -129,10 +129,26 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
         self.build_menus()
 
     def build_menus(self):
-        menu_bar = tk.Menu(self.okno)
+        _menu_kw = dict(
+            bg=COLORS["panel"],
+            fg=COLORS["text"],
+            activebackground=COLORS["accent"],
+            activeforeground="#ffffff",
+            font=FONTS["body"],
+        )
+        _submenu_kw = dict(
+            tearoff=0,
+            bg=COLORS["surface"],
+            fg=COLORS["text"],
+            activebackground=COLORS["accent"],
+            activeforeground="#ffffff",
+            font=FONTS["body"],
+        )
+
+        menu_bar = tk.Menu(self.okno, **_menu_kw)
         self.okno.configure(menu=menu_bar)
 
-        file_menu = tk.Menu(menu_bar, tearoff=0)
+        file_menu = tk.Menu(menu_bar, **_submenu_kw)
         menu_bar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="New window", command=self.new_window)
         file_menu.add_command(label="Import image", command=self.add_image)
@@ -146,18 +162,18 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
         file_menu.add_separator()
         file_menu.add_command(label="Close window", command=self.okno.destroy)
 
-        edit_menu = tk.Menu(menu_bar, tearoff=0)
+        edit_menu = tk.Menu(menu_bar, **_submenu_kw)
         menu_bar.add_cascade(label="Edit", menu=edit_menu)
         edit_menu.add_command(label="Undo")
         edit_menu.add_command(label="Redo")
         edit_menu.add_separator()
         edit_menu.add_command(label="New layer", command=self.add_layer)
 
-        view_menu = tk.Menu(menu_bar, tearoff=0)
+        view_menu = tk.Menu(menu_bar, **_submenu_kw)
         menu_bar.add_cascade(label="View", menu=view_menu)
         view_menu.add_command(label="Alpha", command=self.toggle_alpha)
 
-        account_menu = tk.Menu(menu_bar, tearoff=0)
+        account_menu = tk.Menu(menu_bar, **_submenu_kw)
         menu_bar.add_cascade(label="Account", menu=account_menu)
         account_menu.add_command(label="Login", command=self.open_login_window)
         account_menu.add_command(label="Register", command=self.open_register_window)
