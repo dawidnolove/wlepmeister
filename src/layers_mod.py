@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from theme_colors import COLORS, FONTS
 from ui_dialogs import ask_yes_no, prompt_string
 MAX_LAYER_NAME_CHARS = 18
 DEFAULT_MAX_LAYERS_WIDTH = 250
@@ -36,9 +37,10 @@ class Tooltip:
         label = tk.Label(
             self.tooltip,
             text=self.text,
-            bg="#ffffe0",
-            relief="solid",
-            borderwidth=1,
+            bg=COLORS["panel_header"],
+            fg=COLORS["accent2"],
+            font=FONTS["small"],
+            relief="flat",
             padx=6,
             pady=2,
         )
@@ -171,15 +173,30 @@ class LayerUIMixin:
         return text[: max_chars - 3] + "..."
 
     def create_layer_widget(self, layer, index):
+        is_active = layer == self.active_layer
+        row_bg = COLORS["layer_active"] if is_active else COLORS["layer_inactive"]
+        text_color = COLORS["text"]
+        muted_color = COLORS["muted"]
+        btn_bg = COLORS["surface_alt"]
+        btn_fg = COLORS["text"]
+        btn_active = COLORS["border"]
+
         frame = tk.Frame(
             self.layers_container,
-            bg="#ffffff" if layer == self.active_layer else "#cccccc",
-            relief="raised",
-            bd=1,
+            bg=row_bg,
+            relief="flat",
+            bd=0,
         )
         frame.pack(fill="x", padx=4, pady=2)
 
-        drag_label = tk.Label(frame, text="\u2261")
+        drag_label = tk.Label(
+            frame,
+            text="\u2261",
+            bg=row_bg,
+            fg=muted_color,
+            font=FONTS["body"],
+            cursor="fleur",
+        )
         drag_label.pack(side="left", padx=4)
 
         eye_icon = "\U0001F441" if layer.visible else "\U0001F648"
@@ -188,6 +205,14 @@ class LayerUIMixin:
             frame,
             text=eye_icon,
             width=2,
+            bg=btn_bg,
+            fg=btn_fg,
+            activebackground=COLORS["accent_soft"],
+            activeforeground=btn_fg,
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["body"],
             command=lambda l=layer: self.toggle_layer_visibility(l),
         )
         visibility_btn.pack(side="left", padx=2)
@@ -201,6 +226,9 @@ class LayerUIMixin:
             frame,
             text=display_name,
             anchor="w",
+            bg=row_bg,
+            fg=text_color if is_active else muted_color,
+            font=FONTS["body_bold"] if is_active else FONTS["body"],
         )
         name_label.pack(side="left", fill="x", expand=True)
 
@@ -218,6 +246,14 @@ class LayerUIMixin:
             frame,
             text="\u25B2",
             width=2,
+            bg=btn_bg,
+            fg=btn_fg,
+            activebackground=COLORS["accent"],
+            activeforeground="#ffffff",
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["small"],
             command=lambda: self.move_layer(index, 1),
         )
         up_btn.pack(side="right")
@@ -227,6 +263,14 @@ class LayerUIMixin:
             frame,
             text="\u25BC",
             width=2,
+            bg=btn_bg,
+            fg=btn_fg,
+            activebackground=COLORS["accent"],
+            activeforeground="#ffffff",
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["small"],
             command=lambda: self.move_layer(index, -1),
         )
         down_btn.pack(side="right")
@@ -236,6 +280,14 @@ class LayerUIMixin:
             frame,
             text="\u2715",
             width=2,
+            bg=btn_bg,
+            fg=COLORS["danger"],
+            activebackground=COLORS["danger"],
+            activeforeground="#ffffff",
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["body_bold"],
             command=lambda l=layer: self.delete_layer(l),
         )
         delete_btn.pack(side="right", padx=2)
@@ -246,23 +298,50 @@ class LayerUIMixin:
         self.left_panel = tk.Frame(
             parent,
             width=max_layers_width,
-            bg="#dddddd",
+            bg=COLORS["panel"],
         )
         self.left_panel.pack(side="left", fill="y")
         self.left_panel.pack_propagate(False)
 
-        header = tk.Frame(self.left_panel, bg="#bbbbbb")
+        header = tk.Frame(self.left_panel, bg=COLORS["panel_header"])
         header.pack(fill="x")
-        tk.Label(header, text="Layers", bg="#bbbbbb").pack(side="left", padx=5)
+        tk.Label(
+            header,
+            text="Layers",
+            bg=COLORS["panel_header"],
+            fg=COLORS["text"],
+            font=FONTS["body_bold"],
+        ).pack(side="left", padx=5, pady=4)
 
-        add_btn = tk.Button(header, text="+", command=self.add_layer)
-        add_btn.pack(side="right", padx=5)
+        add_btn = tk.Button(
+            header,
+            text="+",
+            width=2,
+            bg=COLORS["accent"],
+            fg="#ffffff",
+            activebackground=COLORS["accent_dark"],
+            activeforeground="#ffffff",
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["body_bold"],
+            command=self.add_layer,
+        )
+        add_btn.pack(side="right", padx=5, pady=3)
         Tooltip(add_btn, "Dodaj nowy layer")
 
         move_right_btn = tk.Button(
             header,
-            text="→",
+            text="\u2192",
             width=2,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            activebackground=COLORS["accent"],
+            activeforeground="#ffffff",
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["body"],
             command=lambda: self.move_active_layer(LAYER_NUDGE_STEP, 0),
         )
         move_right_btn.pack(side="right")
@@ -270,14 +349,22 @@ class LayerUIMixin:
 
         move_left_btn = tk.Button(
             header,
-            text="←",
+            text="\u2190",
             width=2,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            activebackground=COLORS["accent"],
+            activeforeground="#ffffff",
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            font=FONTS["body"],
             command=lambda: self.move_active_layer(-LAYER_NUDGE_STEP, 0),
         )
         move_left_btn.pack(side="right")
         Tooltip(move_left_btn, "Przesun aktywna warstwe w lewo")
 
-        self.layers_container = tk.Frame(self.left_panel, bg="#dddddd")
+        self.layers_container = tk.Frame(self.left_panel, bg=COLORS["panel"])
         self.layers_container.pack(fill="both", expand=True)
 
     def _request_canvas_redraw(self):
