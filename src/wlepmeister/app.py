@@ -1,17 +1,18 @@
 import os
 import sys
+from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog
 
 from PIL import Image
 
-from auth_ui import AuthUIMixin
-from cloud import CloudUIMixin
-from image_object import ImageObject
-from layers_mod import LayerUIMixin
-from theme_colors import COLORS, FONTS
-from ui_dialogs import show_error, show_toast
-from ui_theme import apply_titlebar_color
+from .core.image_object import ImageObject
+from .ui.auth import AuthUIMixin
+from .ui.cloud import CloudUIMixin
+from .ui.dialogs import show_error, show_toast
+from .ui.layers import LayerUIMixin
+from .ui.palette import COLORS, FONTS
+from .ui.theme import apply_titlebar_color
 
 APP_TITLE = "WLEPMEISTER"
 APP_GEOMETRY = "900x600"
@@ -20,17 +21,14 @@ ALPHA_LEVELS = [0.5, 0.75, 1.0]
 
 
 def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except AttributeError:
-        base_path = os.path.dirname(os.path.abspath(__file__))
+    base_path = getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[2])
     return os.path.normpath(os.path.join(base_path, relative_path))
 
 
 class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
     def __init__(self):
         self.okno = tk.Tk()
-        icon_path = resource_path("../media/icon_py_128.ico")
+        icon_path = resource_path("assets/icon_py_128.ico")
         # Only set the icon if the file exists to avoid startup crash.
         if os.path.exists(icon_path):
             self.okno.iconbitmap(icon_path)
@@ -143,7 +141,7 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
             bg=COLORS["surface"],
             fg=COLORS["text"],
             activebackground=COLORS["accent"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             font=FONTS["body"],
         )
 

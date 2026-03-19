@@ -9,5 +9,7 @@ cd wlepmeister
 pip install -r requirements.txt
 
 # Execution
-python src/main.py
+PYTHONPATH=src python -m wlepmeister
+# Windows (PowerShell)
+# $env:PYTHONPATH="src"; python -m wlepmeister
 <img width="468" height="239" alt="image" src="https://github.com/user-attachments/assets/083977ab-3843-49dd-8234-66e2929c55e1" />

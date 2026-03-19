@@ -1,7 +1,7 @@
 """
-ui_theme.py - Style helpers for WLEPMEISTER.
+theme.py - Style helpers for WLEPMEISTER.
 
-All colour / font / icon constants are centralised in theme_colors.py.
+All colour / font / icon constants are centralised in palette.py.
 This module re-exports those constants and provides convenience helpers for
 styling tkinter widgets.
 """
@@ -11,21 +11,67 @@ import sys
 from pathlib import Path
 import tkinter as tk
 
-from theme_colors import COLORS, FONTS, ICON_FILES  # noqa: F401 – re-exported
+from .palette import COLORS, FONTS, ICON_FILES  # noqa: F401 – re-exported
 
 APP_TITLE = "WLEPMEISTER"
 
 
+def is_macos():
+    return sys.platform == "darwin"
+
+
 def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except AttributeError:
-        base_path = Path(__file__).resolve().parent
+    base_path = getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[3])
     return os.path.normpath(os.path.join(base_path, relative_path))
 
 
 def apply_root_style(root):
     root.configure(bg=COLORS["bg"])
+
+
+_MAC_BUTTON_STYLES = {
+    "primary": {
+        "bg": "#d9e7ec",
+        "fg": "#0f1112",
+        "active": "#c8dde5",
+        "border": "#a9c1cb",
+    },
+    "secondary": {
+        "bg": "#f2f2f2",
+        "fg": "#0f1112",
+        "active": "#e4e4e4",
+        "border": "#c9c9c9",
+    },
+    "ghost": {
+        "bg": "#f7f7f7",
+        "fg": "#0f1112",
+        "active": "#ebebeb",
+        "border": "#d6d6d6",
+    },
+    "danger": {
+        "bg": "#f4d4d2",
+        "fg": "#6b1f1c",
+        "active": "#ebc1be",
+        "border": "#d9a2a0",
+    },
+}
+
+
+def apply_macos_button_style(button, variant="secondary"):
+    if not is_macos():
+        return
+    style = _MAC_BUTTON_STYLES.get(variant, _MAC_BUTTON_STYLES["secondary"])
+    button.configure(
+        bg=style["bg"],
+        fg=style["fg"],
+        activebackground=style["active"],
+        activeforeground=style["fg"],
+        relief="solid",
+        bd=1,
+        highlightthickness=0,
+        highlightbackground=style["border"],
+        highlightcolor=style["border"],
+    )
 
 
 def _hex_to_colorref(hex_color):
@@ -81,7 +127,7 @@ def center_child_window(parent, window, width, height):
 def style_button(button, variant="primary"):
     if variant == "primary":
         bg = COLORS["accent"]
-        fg = "#ffffff"
+        fg = COLORS["text_on_accent"]
         active = COLORS["accent_dark"]
     elif variant == "secondary":
         bg = COLORS["surface_alt"]
@@ -93,7 +139,7 @@ def style_button(button, variant="primary"):
         active = COLORS["surface_alt"]
     elif variant == "danger":
         bg = COLORS["danger"]
-        fg = "#ffffff"
+        fg = COLORS["text_on_accent"]
         active = COLORS["danger_dark"]
     else:
         bg = COLORS["surface_alt"]
@@ -111,6 +157,7 @@ def style_button(button, variant="primary"):
         cursor="hand2",
         font=FONTS["body_bold"],
     )
+    apply_macos_button_style(button, variant=variant)
 
 
 def build_button(parent, text, command, variant="primary", icon=None, **kwargs):
@@ -136,7 +183,7 @@ def style_entry(entry):
 def load_icons(scale=1):
     icons = {}
     for key, filename in ICON_FILES.items():
-        path = resource_path(os.path.join("..", "media", "icons", filename))
+        path = resource_path(os.path.join("assets", "icons", filename))
         if not os.path.exists(path):
             continue
         image = tk.PhotoImage(file=path)

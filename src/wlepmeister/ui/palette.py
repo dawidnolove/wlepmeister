@@ -1,10 +1,11 @@
 """
-theme_colors.py – Unified dark space theme constants for WLEPMEISTER.
+palette.py – Unified dark graphite theme constants for WLEPMEISTER.
 
-Inspired by the deep-space aesthetic of planetono.space:
-  * Near-black / midnight-navy backgrounds
-  * Electric violet / cyan accent palette
-  * Crisp white-on-dark typography
+Palette direction:
+  * Graphite / slate neutrals
+  * Deep blue primary accent
+  * Warm brass secondary accent
+  * Clear, accessible contrast on dark UI
 """
 
 # ---------------------------------------------------------------------------
@@ -12,53 +13,54 @@ Inspired by the deep-space aesthetic of planetono.space:
 # ---------------------------------------------------------------------------
 COLORS = {
     # ── backgrounds ──────────────────────────────────────────────────────────
-    "bg":             "#0d1117",   # root window – near black / deep space
-    "panel":          "#161b27",   # left/right side panels
-    "panel_header":   "#1c2236",   # panel header strips
-    "surface":        "#1e2435",   # dialog / card surfaces
-    "surface_alt":    "#252c3d",   # slightly lighter surface (hover, stripe)
-    "canvas":         "#111520",   # canvas drawing area
-    "title_bar_bg":   "#000000",   # OS title bar (Windows)
-    "menu_bg":        "#000000",   # top menu bar background (File/Edit/etc.)
-    "menu_fg":        "#ffffff",   # top menu bar text
-    "menu_active_bg": "#000000",   # top menu bar hover/active background
-    "menu_active_fg": "#ffffff",   # top menu bar hover/active text
+    "bg":             "#0f1112",   # root window – charcoal
+    "panel":          "#15181b",   # left/right side panels
+    "panel_header":   "#1c2024",   # panel header strips
+    "surface":        "#181c20",   # dialog / card surfaces
+    "surface_alt":    "#222830",   # slightly lighter surface (hover, stripe)
+    "canvas":         "#0d0f11",   # canvas drawing area
+    "title_bar_bg":   "#0f1112",   # OS title bar (Windows)
+    "menu_bg":        "#0f1112",   # top menu bar background (File/Edit/etc.)
+    "menu_fg":        "#e9edf1",   # top menu bar text
+    "menu_active_bg": "#181c20",   # top menu bar hover/active background
+    "menu_active_fg": "#e9edf1",   # top menu bar hover/active text
 
     # ── typography ───────────────────────────────────────────────────────────
-    "text":           "#e8eaf6",   # primary text
-    "muted":          "#7986cb",   # secondary / placeholder text
-    "text_inverse":   "#0d1117",   # text on bright buttons
+    "text":           "#e9edf1",   # primary text
+    "muted":          "#b0bac4",   # secondary / placeholder text
+    "text_inverse":   "#0f1112",   # text on bright buttons
+    "text_on_accent": "#ffffff",   # text on accent buttons
 
-    # ── accent – electric violet ──────────────────────────────────────────
-    "accent":         "#7c4dff",   # primary accent (violet)
-    "accent_dark":    "#5e35b1",   # pressed / darker accent
-    "accent_soft":    "#2a1f4f",   # subtle tinted background
+    # ── accent – deep blue ────────────────────────────────────────────────
+    "accent":         "#2f7a8f",   # primary accent (deep teal)
+    "accent_dark":    "#245f6f",   # pressed / darker accent
+    "accent_soft":    "#172c33",   # subtle tinted background
 
-    # ── secondary accent – cyan ───────────────────────────────────────────
-    "accent2":        "#00e5ff",   # secondary accent (cyan)
-    "accent2_dark":   "#00b2cc",   # pressed cyan
+    # ── secondary accent – warm brass ─────────────────────────────────────
+    "accent2":        "#c58b5a",   # secondary accent (copper)
+    "accent2_dark":   "#a36f45",   # pressed copper
 
     # ── borders & dividers ───────────────────────────────────────────────────
-    "border":         "#2d3550",   # default border / separator
-    "border_focus":   "#7c4dff",   # focused / active border
+    "border":         "#2a3137",   # default border / separator
+    "border_focus":   "#2f7a8f",   # focused / active border
 
     # ── status & feedback ────────────────────────────────────────────────────
-    "success":        "#00e676",   # green confirmation
-    "warning":        "#ffab40",   # orange warning
-    "danger":         "#ff1744",   # destructive / error red
-    "danger_dark":    "#b71c1c",   # pressed danger
+    "success":        "#4c9a7c",   # green confirmation
+    "warning":        "#d7a458",   # orange warning
+    "danger":         "#c85b57",   # destructive / error red
+    "danger_dark":    "#a04845",   # pressed danger
 
     # ── toast notification ───────────────────────────────────────────────────
-    "toast_bg":       "#1c2236",
-    "toast_text":     "#00e5ff",
+    "toast_bg":       "#1c2024",
+    "toast_text":     "#c58b5a",
 
     # ── list selection ───────────────────────────────────────────────────────
-    "select_bg":      "#5e35b1",
+    "select_bg":      "#245f6f",
     "select_fg":      "#ffffff",
 
     # ── layer panel item states ──────────────────────────────────────────────
-    "layer_active":   "#2a1f4f",   # active/selected layer row
-    "layer_inactive": "#1c2236",   # inactive layer row
+    "layer_active":   "#172c33",   # active/selected layer row
+    "layer_inactive": "#1c2024",   # inactive layer row
 }
 
 # ---------------------------------------------------------------------------
@@ -74,7 +76,7 @@ FONTS = {
 }
 
 # ---------------------------------------------------------------------------
-# Icon filenames  (relative to media/icons/)
+# Icon filenames  (relative to assets/icons/)
 # ---------------------------------------------------------------------------
 ICON_FILES = {
     "add":              "add.png",

@@ -1,7 +1,8 @@
 import tkinter as tk
 
-from theme_colors import COLORS, FONTS
-from ui_dialogs import ask_yes_no, prompt_string
+from .dialogs import ask_yes_no, prompt_string
+from .palette import COLORS, FONTS
+from .theme import apply_macos_button_style
 MAX_LAYER_NAME_CHARS = 18
 DEFAULT_MAX_LAYERS_WIDTH = 250
 LAYER_NUDGE_STEP = 10
@@ -215,6 +216,7 @@ class LayerUIMixin:
             font=FONTS["body"],
             command=lambda l=layer: self.toggle_layer_visibility(l),
         )
+        apply_macos_button_style(visibility_btn, variant="secondary")
         visibility_btn.pack(side="left", padx=2)
 
         tooltip_text = "Ukryj layer" if layer.visible else "Pokaz layer"
@@ -249,13 +251,14 @@ class LayerUIMixin:
             bg=btn_bg,
             fg=btn_fg,
             activebackground=COLORS["accent"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             relief="flat",
             bd=0,
             cursor="hand2",
             font=FONTS["small"],
             command=lambda: self.move_layer(index, 1),
         )
+        apply_macos_button_style(up_btn, variant="secondary")
         up_btn.pack(side="right")
         Tooltip(up_btn, "Przesun layer w gore")
 
@@ -266,13 +269,14 @@ class LayerUIMixin:
             bg=btn_bg,
             fg=btn_fg,
             activebackground=COLORS["accent"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             relief="flat",
             bd=0,
             cursor="hand2",
             font=FONTS["small"],
             command=lambda: self.move_layer(index, -1),
         )
+        apply_macos_button_style(down_btn, variant="secondary")
         down_btn.pack(side="right")
         Tooltip(down_btn, "Przesun layer w dol")
 
@@ -283,13 +287,14 @@ class LayerUIMixin:
             bg=btn_bg,
             fg=COLORS["danger"],
             activebackground=COLORS["danger"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             relief="flat",
             bd=0,
             cursor="hand2",
             font=FONTS["body_bold"],
             command=lambda l=layer: self.delete_layer(l),
         )
+        apply_macos_button_style(delete_btn, variant="danger")
         delete_btn.pack(side="right", padx=2)
 
         Tooltip(delete_btn, "Usun layer")
@@ -318,15 +323,16 @@ class LayerUIMixin:
             text="+",
             width=2,
             bg=COLORS["accent"],
-            fg="#ffffff",
+            fg=COLORS["text_on_accent"],
             activebackground=COLORS["accent_dark"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             relief="flat",
             bd=0,
             cursor="hand2",
             font=FONTS["body_bold"],
             command=self.add_layer,
         )
+        apply_macos_button_style(add_btn, variant="primary")
         add_btn.pack(side="right", padx=5, pady=3)
         Tooltip(add_btn, "Dodaj nowy layer")
 
@@ -337,13 +343,14 @@ class LayerUIMixin:
             bg=COLORS["surface_alt"],
             fg=COLORS["text"],
             activebackground=COLORS["accent"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             relief="flat",
             bd=0,
             cursor="hand2",
             font=FONTS["body"],
             command=lambda: self.move_active_layer(LAYER_NUDGE_STEP, 0),
         )
+        apply_macos_button_style(move_right_btn, variant="secondary")
         move_right_btn.pack(side="right")
         Tooltip(move_right_btn, "Przesun aktywna warstwe w prawo")
 
@@ -354,13 +361,14 @@ class LayerUIMixin:
             bg=COLORS["surface_alt"],
             fg=COLORS["text"],
             activebackground=COLORS["accent"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             relief="flat",
             bd=0,
             cursor="hand2",
             font=FONTS["body"],
             command=lambda: self.move_active_layer(-LAYER_NUDGE_STEP, 0),
         )
+        apply_macos_button_style(move_left_btn, variant="secondary")
         move_left_btn.pack(side="right")
         Tooltip(move_left_btn, "Przesun aktywna warstwe w lewo")
 

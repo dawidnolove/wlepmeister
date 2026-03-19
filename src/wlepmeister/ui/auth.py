@@ -1,9 +1,9 @@
 import tkinter as tk
 
-from db import create_user, login_user, user_exists
-from theme_colors import COLORS, FONTS
-from ui_dialogs import show_error, show_info
-from ui_theme import build_button
+from ..data.db import create_user, login_user, user_exists
+from .dialogs import show_error, show_info
+from .palette import COLORS, FONTS
+from .theme import build_button
 
 LOGIN_WINDOW_WIDTH = 350
 LOGIN_WINDOW_HEIGHT = 260

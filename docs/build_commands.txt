@@ -31,13 +31,13 @@ git merge --strategy-option=ours origin/main
 
 ------------
 .APP(directory with .app)
-python src/setup_app.py py2app #setup_app ma opcje dla py2apps tylko na macos/linux
+python build/app/macos/setup_app.py py2app #setup_app ma opcje dla py2app tylko na macos/linux
 .PKG(onefile)
 pkgbuild --install-location /Applications --component dist/Wlepmeister.app dist/Wlepmeister-9.12.pkg
 .MSI(onefile)
-python setup_msi.py bdist_msi #setup_msi ma konfiguracje cx_freeze
+python build/app/windows/setup_msi.py bdist_msi #setup_msi ma konfiguracje cx_freeze (Windows)
 .EXE(onefile)
-python -m PyInstaller --clean --onefile --windowed --icon=../media/icon_py_128.ico --add-data "media;media" ../src/main.py
+python -m PyInstaller --clean --onefile --windowed --icon=assets/icon_py_128.ico --add-data "assets;assets" src/wlepmeister/app.py
 .BIN(onefile)
 
-python -m PyInstaller --onefile main.py
+python -m PyInstaller --clean --onefile --add-data "assets:assets" src/wlepmeister/app.py

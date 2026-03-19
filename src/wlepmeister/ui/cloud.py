@@ -4,16 +4,17 @@ import zlib
 
 from PIL import Image
 
-from db import (
+from ..core.image_object import ImageObject
+from ..data.db import (
     delete_user_cloud_project,
     list_user_cloud_projects,
     load_user_cloud_project,
     save_cloud_project,
 )
-from image_object import ImageObject
-from layers_mod import Layer
-from theme_colors import COLORS, FONTS
-from ui_dialogs import ask_yes_no, show_error, show_info, show_warning
+from .dialogs import ask_yes_no, show_error, show_info, show_warning
+from .layers import Layer
+from .palette import COLORS, FONTS
+from .theme import apply_macos_button_style
 
 _BG = COLORS["surface"]
 _TEXT = COLORS["text"]
@@ -118,7 +119,7 @@ class CloudUIMixin:
             result["name"] = value
             dialog.destroy()
 
-        tk.Button(
+        cancel_btn = tk.Button(
             buttons,
             text="Cancel",
             width=10,
@@ -131,21 +132,25 @@ class CloudUIMixin:
             bd=0,
             cursor="hand2",
             font=_BODY_FONT,
-        ).pack(side="right")
-        tk.Button(
+        )
+        apply_macos_button_style(cancel_btn, variant="secondary")
+        cancel_btn.pack(side="right")
+        save_btn = tk.Button(
             buttons,
             text="Save",
             width=10,
             bg=_BTN_PRIMARY_BG,
-            fg="#ffffff",
+            fg=COLORS["text_on_accent"],
             activebackground=_BTN_PRIMARY_ACTIVE,
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             command=submit,
             relief="flat",
             bd=0,
             cursor="hand2",
             font=_BODY_FONT,
-        ).pack(side="right", padx=(0, 8))
+        )
+        apply_macos_button_style(save_btn, variant="primary")
+        save_btn.pack(side="right", padx=(0, 8))
 
         dialog.bind("<Return>", lambda _event: submit())
         dialog.wait_window()
@@ -238,7 +243,7 @@ class CloudUIMixin:
 
         buttons = tk.Frame(container, bg=_BG)
         buttons.pack(fill="x")
-        tk.Button(
+        cancel_btn = tk.Button(
             buttons,
             text="Cancel",
             width=10,
@@ -251,35 +256,41 @@ class CloudUIMixin:
             bd=0,
             cursor="hand2",
             font=_BODY_FONT,
-        ).pack(side="right")
-        tk.Button(
+        )
+        apply_macos_button_style(cancel_btn, variant="secondary")
+        cancel_btn.pack(side="right")
+        open_btn = tk.Button(
             buttons,
             text="Open",
             width=10,
             bg=_BTN_PRIMARY_BG,
-            fg="#ffffff",
+            fg=COLORS["text_on_accent"],
             activebackground=_BTN_PRIMARY_ACTIVE,
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             command=choose_selected,
             relief="flat",
             bd=0,
             cursor="hand2",
             font=_BODY_FONT,
-        ).pack(side="right", padx=(0, 8))
-        tk.Button(
+        )
+        apply_macos_button_style(open_btn, variant="primary")
+        open_btn.pack(side="right", padx=(0, 8))
+        delete_btn = tk.Button(
             buttons,
             text="Delete",
             width=10,
             bg=COLORS["danger"],
-            fg="#ffffff",
+            fg=COLORS["text_on_accent"],
             activebackground=COLORS["danger_dark"],
-            activeforeground="#ffffff",
+            activeforeground=COLORS["text_on_accent"],
             command=delete_selected,
             relief="flat",
             bd=0,
             cursor="hand2",
             font=_BODY_FONT,
-        ).pack(side="right", padx=(0, 8))
+        )
+        apply_macos_button_style(delete_btn, variant="danger")
+        delete_btn.pack(side="right", padx=(0, 8))
 
         listbox.bind("<Double-Button-1>", lambda _event: choose_selected())
         picker.wait_window()

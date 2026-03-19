@@ -1,6 +1,7 @@
 import tkinter as tk
 
-from theme_colors import COLORS, FONTS
+from .palette import COLORS, FONTS
+from .theme import apply_macos_button_style
 
 DIALOG_BG = COLORS["surface"]
 TEXT_COLOR = COLORS["text"]
@@ -69,13 +70,13 @@ def _build_dialog(parent, title, message, width, height, buttons, default=None):
     for label, value, style in buttons:
         if style == "primary":
             bg = COLORS["accent"]
-            fg = "#ffffff"
+            fg = COLORS["text_on_accent"]
             active_bg = COLORS["accent_dark"]
         else:
             bg = COLORS["surface_alt"]
             fg = COLORS["text"]
             active_bg = COLORS["border"]
-        tk.Button(
+        button = tk.Button(
             buttons_frame,
             text=label,
             width=10,
@@ -88,7 +89,9 @@ def _build_dialog(parent, title, message, width, height, buttons, default=None):
             bd=0,
             cursor="hand2",
             font=BODY_FONT,
-        ).pack(side="right", padx=(0, 8))
+        )
+        apply_macos_button_style(button, variant=style)
+        button.pack(side="right", padx=(0, 8))
 
     dialog.protocol("WM_DELETE_WINDOW", make_cmd(default))
     dialog.wait_window()
@@ -204,7 +207,7 @@ def prompt_string(parent, title, message, initial_value=""):
         result["value"] = value
         dialog.destroy()
 
-    tk.Button(
+    cancel_btn = tk.Button(
         buttons,
         text="Cancel",
         width=10,
@@ -217,21 +220,25 @@ def prompt_string(parent, title, message, initial_value=""):
         bd=0,
         cursor="hand2",
         font=BODY_FONT,
-    ).pack(side="right")
-    tk.Button(
+    )
+    apply_macos_button_style(cancel_btn, variant="secondary")
+    cancel_btn.pack(side="right")
+    save_btn = tk.Button(
         buttons,
         text="Save",
         width=10,
         bg=COLORS["accent"],
-        fg="#ffffff",
+        fg=COLORS["text_on_accent"],
         activebackground=COLORS["accent_dark"],
-        activeforeground="#ffffff",
+        activeforeground=COLORS["text_on_accent"],
         command=submit,
         relief="flat",
         bd=0,
         cursor="hand2",
         font=BODY_FONT,
-    ).pack(side="right", padx=(0, 8))
+    )
+    apply_macos_button_style(save_btn, variant="primary")
+    save_btn.pack(side="right", padx=(0, 8))
 
     dialog.bind("<Return>", lambda _event: submit())
     dialog.wait_window()

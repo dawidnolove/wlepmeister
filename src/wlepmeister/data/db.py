@@ -10,9 +10,8 @@ from pymongo import MongoClient
 from pymongo.errors import CollectionInvalid
 from pymongo.errors import ConnectionFailure, PyMongoError
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 load_dotenv(PROJECT_ROOT / ".env")
-load_dotenv(Path(__file__).resolve().parent / ".env")
 MONGO_URI = os.getenv("MONGO_URI")
 
 CLIENT = None
