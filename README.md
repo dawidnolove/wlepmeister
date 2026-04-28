@@ -31,10 +31,9 @@
 
 <div align="center">
 
-<a href="https://wlepmeister.great-site.net/">
-  <img width="468" height="239" alt="WlepMeister preview" src="https://github.com/user-attachments/assets/083977ab-3843-49dd-8234-66e2929c55e1" />
-</a>
-
+```txt
+python src/main.py
+```
 </div>
 
 > [!TIP]
