@@ -4,7 +4,7 @@ import zlib
 
 from PIL import Image
 
-from db import (
+from .db import (
     add_favorite_project,
     delete_user_cloud_project,
     list_user_cloud_projects,
@@ -13,10 +13,10 @@ from db import (
     save_cloud_project,
     share_cloud_project,
 )
-from image_object import ImageObject
-from layers_mod import Layer
-from theme_colors import COLORS, FONTS
-from ui_dialogs import ask_yes_no, prompt_string, show_error, show_info, show_warning
+from .image_object import ImageObject
+from .layers_mod import Layer
+from .theme_colors import COLORS, FONTS
+from .ui_dialogs import ask_yes_no, prompt_string, show_error, show_info, show_warning
 
 _BG = COLORS["surface"]
 _TEXT = COLORS["text"]

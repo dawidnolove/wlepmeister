@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from theme_colors import COLORS, FONTS
-from ui_dialogs import ask_yes_no, prompt_string
+from .theme_colors import COLORS, FONTS
+from .ui_dialogs import ask_yes_no, prompt_string
 MAX_LAYER_NAME_CHARS = 18
 DEFAULT_MAX_LAYERS_WIDTH = 250
 LAYER_NUDGE_STEP = 10

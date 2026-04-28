@@ -6,10 +6,10 @@ from tkinter import filedialog
 
 from PIL import Image, ImageOps, ImageTk
 
-from db import create_user, get_user_profile, login_user, update_user_profile, user_exists
-from theme_colors import COLORS, FONTS
-from ui_dialogs import show_error, show_info
-from ui_theme import build_button
+from .db import create_user, get_user_profile, login_user, update_user_profile, user_exists
+from .theme_colors import COLORS, FONTS
+from .ui_dialogs import show_error, show_info
+from .ui_theme import build_button
 
 LOGIN_WINDOW_WIDTH = 350
 LOGIN_WINDOW_HEIGHT = 260

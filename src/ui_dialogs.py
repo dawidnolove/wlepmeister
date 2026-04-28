@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from theme_colors import COLORS, FONTS
+from .theme_colors import COLORS, FONTS
 
 DIALOG_BG = COLORS["surface"]
 TEXT_COLOR = COLORS["text"]
