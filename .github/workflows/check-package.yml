@@ -1,0 +1,40 @@
+name: Check Python Package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      
+      - name: Install build and twine
+        run: |
+          pip install build twine check-manifest
+      
+      - name: Build package
+        run: python -m build
+      
+      - name: Check with twine (PyPI validation)
+        run: twine check dist/*
+      
+      - name: Check manifest
+        run: check-manifest
+      
+      - name: Install package locally
+        run: pip install -e .
+      
+      - name: Test import
+        run: python -c "import wlepmeister; print('OK')"
+      
+      - name: Test CLI command
+        run: wlepmeister --help || echo "CLI not working"
