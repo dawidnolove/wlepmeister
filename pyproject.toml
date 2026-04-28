@@ -46,4 +46,4 @@ dependencies = [
 ]
 
 [project.scripts]
-wlepmeister = "main:main"
+wlepmeister = "wlepmeister.src.main:main"
