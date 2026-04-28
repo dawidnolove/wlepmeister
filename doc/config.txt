@@ -4,6 +4,7 @@ source venv/bin/activate
 ------------
 
 python -m pip show package/module
+pip install --upgrade package/module
 
 ------------
 //pypi publish
