@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# 🏷️ WlepMeister
+# 🏷️ WLEPMEISTER
 
 **A clean Python-powered project with a live showcase, simple setup, and source code ready to run locally.**
 
