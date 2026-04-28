@@ -23,14 +23,14 @@ required_packages = ["pillow", "pymongo"]
 
 install_if_missing(required_packages)
 from PIL import Image, ImageOps, ImageTk
-from auth_ui import AuthUIMixin
-from cloud import CloudUIMixin
-from db import get_user_profile
-from image_object import ImageObject
-from layers_mod import LayerUIMixin
-from theme_colors import COLORS, FONTS, set_theme
-from ui_dialogs import show_error, show_toast
-from ui_theme import apply_titlebar_color
+from .auth_ui import AuthUIMixin
+from .cloud import CloudUIMixin
+from .db import get_user_profile
+from .image_object import ImageObject
+from .layers_mod import LayerUIMixin
+from .theme_colors import COLORS, FONTS, set_theme
+from .ui_dialogs import show_error, show_toast
+from .ui_theme import apply_titlebar_color
 
 APP_TITLE = "WLEPMEISTER"
 APP_GEOMETRY = "900x600"
@@ -429,7 +429,7 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
         if self.current_user:
             profile = get_user_profile(self.current_user) or {}
             if profile.get("theme") != name:
-                from db import update_user_profile
+                from .db import update_user_profile
                 update_user_profile(self.current_user, theme=name)
 
     def _refresh_ui_theme(self):
@@ -511,6 +511,11 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
 
     def run(self):
         self.okno.mainloop()
+
+
+def main():
+    app = Wlepmeister()
+    app.run()
 
 
 if __name__ == "__main__":

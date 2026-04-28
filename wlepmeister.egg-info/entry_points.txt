@@ -1,0 +1,2 @@
+[console_scripts]
+wlepmeister = wlepmeister.main:main

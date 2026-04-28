@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 import tkinter as tk
 
-from theme_colors import COLORS, FONTS, ICON_FILES  # noqa: F401 – re-exported
+from .theme_colors import COLORS, FONTS, ICON_FILES  # noqa: F401 – re-exported
 
 APP_TITLE = "WLEPMEISTER"
 
