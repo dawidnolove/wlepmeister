@@ -39,5 +39,5 @@ dependencies = [
 "Werkzeug>=3.1.6",
 ]
 
-# [project.scripts]
-# wlepmeister = "main:main"
+[project.scripts]
+wlepmeister = "main:main"
