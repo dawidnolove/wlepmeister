@@ -22,7 +22,9 @@ on:
   #   tags:
   #     - 'v*'
   workflow_dispatch:  
-
+permissions:
+  contents: read
+  id-token: write
 jobs:
   build:
     name: Build distribution
