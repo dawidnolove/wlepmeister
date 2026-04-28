@@ -2,6 +2,10 @@ python3 -m venv venv
 source venv/bin/activate
 
 ------------
+//pypi publish
+git tag v0.1.0 && git push --tags
+
+------------
 
 git config --global user.email or name "..."
 git init
@@ -10,6 +14,8 @@ git add .
 git commit -m "..."
 git remote add origin "... .git" (raz)
 git push -u origin main (ustawienie trackingu tylko raz, --force nadpisuje) 
+git push origin main --force-with-lease
+
 
 ------------
 
