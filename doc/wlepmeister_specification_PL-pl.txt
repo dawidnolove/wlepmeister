@@ -1,0 +1,70 @@
+Wlepmeister
+Aplikacja desktopowa do edycji grafiki z systemem warstw, stworzona w Pythonie.
+
+O projekcie
+Wlepmeister to aplikacja okienkowa tworzona jako narzędzie w Pythonie. Projekt jest rozwijany iteracyjnie – z czasem dodawane są kolejne funkcjonalności.
+
+Cel
+Stworzenie intuicyjnego programu graficznego (podobnego do Painta) do tworzenia grafik, kolaży, logo, flag, naklejek czy tła. W odróżnieniu od klasycznego Painta, dodane elementy można edytować niezależnie na każdym etapie pracy.
+
+Etap 1: Podstawy
+Menu główne z opcjami zamykania i otwierania nowych okien
+Wczytywanie grafik (PNG) z dysku
+Wyświetlanie grafiki na obszarze roboczym (canvasie)
+Przesuwanie grafiki po ekranie
+
+Etap 2: Obszar roboczy i skalowanie
+Definiowanie docelowego rozmiaru – tworzenie białego pola o określonych wymiarach
+Automatyczne skalowanie wczytanych obrazów do rozmiaru canvasu
+Pozycjonowanie obrazów w wyznaczonym obszarze
+Przeciąganie w obrębie pola – ograniczenie ruchu do granic canvasu
+
+Etap 3: System warstw
+Panel warstw po lewej stronie ekranu
+Dodawanie warstw i przełączanie się między nimi
+Skrót Ctrl+A otwiera eksplorator plików Windows do wyboru pliku PNG
+Wiele obiektów na jednej warstwie – grupowe przesuwanie
+Usuwanie obiektów pojedynczo, nawet jeśli należą do tej samej warstwy
+
+Etap 4: Transformacje
+Obracanie obrazów wokół własnej osi
+Wybór obiektu – aktywny obiekt podlega transformacjom
+Intuicyjne sterowanie – kliknięcie obrazu = zaznaczenie
+
+Etap 5: Eksport
+Menu eksportu w górnym pasku
+Wybór tła: przezroczyste lub białe
+Formaty wyjściowe: PNG, SVG
+Promień zaokrąglenia – zaokrąglone rogi eksportowanego obrazu
+Zachowanie warstw w pliku końcowym
+
+Technologie (Stack)
+Python
+Framework GUI
+Grafika
+Eksport
+
+Plan rozwoju (Roadmap)
+Struktura projektu
+Okno z poziomu menu
+Wczytywanie i wyświetlanie grafiki
+Przesuwanie grafiki po ekranie
+Canvas o określonym rozmiarze
+Automatyczne skalowanie do canvasu
+System warstw
+Dodawanie wielu plików skrótem Ctrl+A
+Grupowe przesuwanie obiektów na warstwie
+Usuwanie obiektów
+Obracanie obrazów
+Menu eksportu
+Eksport do PNG
+Eksport do SVG
+Zaokrąglone rogi i przezroczystość przy eksporcie
+
+Ćwiczone zagadnienia (Practice)
+Klasy i OOP: Layer, ImageObject, Canvas
+Pętle: iteracja po warstwach, obiektach i pikselach
+Warunki: kolizje, granice, walidacja danych wejściowych
+Obsługa zdarzeń: kliknięcia, przeciąganie, skróty klawiaturowe
+Operacje na plikach: wczytywanie i zapisywanie
+Programowanie GUI: układ, zdarzenia, renderowanie

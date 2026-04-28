@@ -1,0 +1,13 @@
+﻿venv/
+#system files
+.DS_Store
+__pycache__/
+*.pyc
+# local env
+.env
+.env.*
+URI.env
+!.env.example
+# IDE files
+.vscode/
+#doc/config.txt
