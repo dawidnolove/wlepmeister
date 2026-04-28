@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# 🏷️ WLEPMEISTER
+#  WLEPMEISTER
 
 **A clean Python-powered project with a live showcase, simple setup, and source code ready to run locally.**
 
@@ -39,8 +39,6 @@
 
 > [!TIP]
 > Want to see the pitch deck immediately? Visit the live version: **[wlepmeister.great-site.net](https://wlepmeister.great-site.net/)**
-
----
 
 ---
 
