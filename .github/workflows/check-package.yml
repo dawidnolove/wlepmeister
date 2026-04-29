@@ -1,16 +1,16 @@
 name: Check Python Package
 
 on:
-  # push:
-  #   branches: [ main ]
+  workflow_call:
+  workflow_dispatch:
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
-  workflow_call:
+  # push:
+  #   branches: [ main ]
     
 permissions:
   contents: read
-  id-token: write
+  # id-token: write
 jobs:
   check:
     runs-on: ubuntu-latest
