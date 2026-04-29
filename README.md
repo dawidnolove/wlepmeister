@@ -32,7 +32,8 @@
 <div align="center">
 
 ```txt
-python src/main.py
+pip install wlepmeister && pip install --upgrade wlepmeister
+python -m wlepmeister
 ```
 </div>
 
