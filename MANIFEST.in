@@ -11,6 +11,7 @@ recursive-include media *
 recursive-include doc *
 # source code
 recursive-include src *
+recursive-include dev *.py
 
 
 prune build
