@@ -1,11 +1,13 @@
 name: Check Python Package
 
 on:
-  push:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  workflow_call:
+    
 permissions:
   contents: read
   id-token: write
