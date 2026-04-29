@@ -47,6 +47,7 @@ python -m wlepmeister
 **WlepMeister** is a Python-based project created by [@dawidnolove](https://github.com/dawidnolove) & [@Mi3dzi4n](https://github.com/Mi3dzi4n) & [@Kubiarek](https://github.com/Kubiarek)
 
 It is designed to help you create a variety of graphics, posters or even brand logos. Full theme customization and range of new features making it the most efficient and intuitve, leaving Paint far behind. We conquered the ability to move each object even after pasting.  
+  
 The repository contains a straightforward Python entry point located at:
 
 ```txt
