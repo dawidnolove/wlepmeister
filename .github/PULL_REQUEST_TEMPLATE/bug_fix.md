@@ -1,5 +1,10 @@
-## Bug Fix Summary
-Describe the bug and what this PR fixes.
+---
+name: Pull request
+about: Brief description
+title: ''
+labels: ''
+
+---
 
 ### Related Issue
 Fixes #ID
