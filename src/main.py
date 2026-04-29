@@ -6,6 +6,11 @@ import tkinter as tk
 from tkinter import filedialog
 import subprocess
 import importlib.util
+
+if __name__ == "__main__" and __package__ is None:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    __package__ = "src"
+
 def install_if_missing(packages):
     subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip", "--quiet"])
 
@@ -318,6 +323,7 @@ class Wlepmeister(AuthUIMixin, CloudUIMixin, LayerUIMixin):
         edit_menu.add_command(label="Redo")
         edit_menu.add_separator()
         edit_menu.add_command(label="New layer", command=self.add_layer)
+        edit_menu.add_command(label="Merge selected layers", command=self.merge_selected_layers)
 
         view_menu = tk.Menu(menu_bar, **_submenu_kw)
         menu_bar.add_cascade(label="View", menu=view_menu)

@@ -17,16 +17,8 @@ from .image_object import ImageObject
 from .layers_mod import Layer
 from .theme_colors import COLORS, FONTS
 from .ui_dialogs import ask_yes_no, prompt_string, show_error, show_info, show_warning
+from .ui_theme import apply_titlebar_color
 
-_BG = COLORS["surface"]
-_TEXT = COLORS["text"]
-_MUTED = COLORS["muted"]
-_ENTRY_BG = COLORS["surface_alt"]
-_BTN_PRIMARY_BG = COLORS["accent"]
-_BTN_PRIMARY_ACTIVE = COLORS["accent_dark"]
-_BTN_SECONDARY_BG = COLORS["surface_alt"]
-_BTN_SECONDARY_ACTIVE = COLORS["border"]
-_LIST_SELECT = COLORS["select_bg"]
 _TITLE_FONT = FONTS["section"]
 _BODY_FONT = FONTS["body"]
 
@@ -68,7 +60,8 @@ class CloudUIMixin:
         dialog.title(title)
         dialog.transient(self.okno)
         dialog.grab_set()
-        dialog.configure(bg=_BG)
+        dialog.configure(bg=COLORS["surface"])
+        apply_titlebar_color(dialog)
         self._center_child_window(dialog, width, height)
         return dialog
 
@@ -76,21 +69,22 @@ class CloudUIMixin:
         dialog = self._create_cloud_dialog("Save to cloud", 420, 200)
         result = {"name": None}
 
-        container = tk.Frame(dialog, bg=_BG, padx=16, pady=14)
+        bg = COLORS["surface"]
+        container = tk.Frame(dialog, bg=bg, padx=16, pady=14)
         container.pack(fill="both", expand=True)
 
         tk.Label(
             container,
             text="Save project to cloud",
-            bg=_BG,
-            fg=_TEXT,
+            bg=bg,
+            fg=COLORS["text"],
             font=_TITLE_FONT,
         ).pack(anchor="w", pady=(0, 10))
         tk.Label(
             container,
             text="Project name:",
-            bg=_BG,
-            fg=_MUTED,
+            bg=bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(anchor="w")
 
@@ -100,8 +94,8 @@ class CloudUIMixin:
             textvariable=name_var,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -110,7 +104,7 @@ class CloudUIMixin:
         entry.pack(fill="x", pady=(6, 12), ipady=5)
         entry.focus_set()
 
-        buttons = tk.Frame(container, bg=_BG)
+        buttons = tk.Frame(container, bg=bg)
         buttons.pack(fill="x")
 
         def submit():
@@ -125,10 +119,10 @@ class CloudUIMixin:
             buttons,
             text="Cancel",
             width=10,
-            bg=_BTN_SECONDARY_BG,
-            fg=_TEXT,
-            activebackground=_BTN_SECONDARY_ACTIVE,
-            activeforeground=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            activebackground=COLORS["border"],
+            activeforeground=COLORS["text"],
             command=dialog.destroy,
             relief="flat",
             bd=0,
@@ -139,9 +133,9 @@ class CloudUIMixin:
             buttons,
             text="Save",
             width=10,
-            bg=_BTN_PRIMARY_BG,
+            bg=COLORS["accent"],
             fg="#ffffff",
-            activebackground=_BTN_PRIMARY_ACTIVE,
+            activebackground=COLORS["accent_dark"],
             activeforeground="#ffffff",
             command=submit,
             relief="flat",
@@ -186,22 +180,23 @@ class CloudUIMixin:
         picker = self._create_cloud_dialog("Open from cloud", 520, 430)
         selected_project = {"value": None}
 
-        container = tk.Frame(picker, bg=_BG, padx=14, pady=12)
+        bg = COLORS["surface"]
+        container = tk.Frame(picker, bg=bg, padx=14, pady=12)
         container.pack(fill="both", expand=True)
 
         tk.Label(
             container,
             text="Open project from cloud",
-            bg=_BG,
-            fg=_TEXT,
+            bg=bg,
+            fg=COLORS["text"],
             font=_TITLE_FONT,
         ).pack(anchor="w", pady=(0, 10))
 
         tk.Label(
             container,
             text="Search:",
-            bg=_BG,
-            fg=_MUTED,
+            bg=bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(anchor="w")
 
@@ -211,8 +206,8 @@ class CloudUIMixin:
             textvariable=search_var,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -223,17 +218,17 @@ class CloudUIMixin:
         tk.Label(
             container,
             text="Choose project:",
-            bg=_BG,
-            fg=_MUTED,
+            bg=bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(anchor="w", pady=(0, 4))
 
         listbox = tk.Listbox(
             container,
             height=11,
-            bg=_ENTRY_BG,
-            fg=_TEXT,
-            selectbackground=_LIST_SELECT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            selectbackground=COLORS["select_bg"],
             selectforeground=COLORS["select_fg"],
             relief="flat",
             highlightthickness=1,
@@ -243,17 +238,16 @@ class CloudUIMixin:
         )
         listbox.pack(fill="both", expand=True, pady=(0, 10))
 
-        button_row = tk.Frame(container, bg=_BG)
+        button_row = tk.Frame(container, bg=bg)
         button_row.pack(fill="x")
-
         favorite_btn = tk.Button(
             button_row,
             text="Star",
             width=10,
-            bg=_BTN_SECONDARY_BG,
-            fg=_TEXT,
-            activebackground=_BTN_SECONDARY_ACTIVE,
-            activeforeground=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            activebackground=COLORS["border"],
+            activeforeground=COLORS["text"],
             relief="flat",
             bd=0,
             cursor="hand2",
@@ -265,10 +259,10 @@ class CloudUIMixin:
             button_row,
             text="Share",
             width=10,
-            bg=_BTN_SECONDARY_BG,
-            fg=_TEXT,
-            activebackground=_BTN_SECONDARY_ACTIVE,
-            activeforeground=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            activebackground=COLORS["border"],
+            activeforeground=COLORS["text"],
             relief="flat",
             bd=0,
             cursor="hand2",
@@ -295,10 +289,10 @@ class CloudUIMixin:
             button_row,
             text="Cancel",
             width=10,
-            bg=_BTN_SECONDARY_BG,
-            fg=_TEXT,
-            activebackground=_BTN_SECONDARY_ACTIVE,
-            activeforeground=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            activebackground=COLORS["border"],
+            activeforeground=COLORS["text"],
             command=picker.destroy,
             relief="flat",
             bd=0,
@@ -311,9 +305,9 @@ class CloudUIMixin:
             button_row,
             text="Open",
             width=10,
-            bg=_BTN_PRIMARY_BG,
+            bg=COLORS["accent"],
             fg="#ffffff",
-            activebackground=_BTN_PRIMARY_ACTIVE,
+            activebackground=COLORS["accent_dark"],
             activeforeground="#ffffff",
             relief="flat",
             bd=0,
@@ -469,6 +463,7 @@ class CloudUIMixin:
             self.add_layer()
             return
         self.active_layer = self.layers[-1]
+        self.active_layers = [self.active_layer]
         self.refresh_layers_ui()
         self.redraw_canvas()
 

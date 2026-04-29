@@ -1,12 +1,8 @@
 import tkinter as tk
 
 from .theme_colors import COLORS, FONTS
+from .ui_theme import apply_titlebar_color
 
-DIALOG_BG = COLORS["surface"]
-TEXT_COLOR = COLORS["text"]
-BUTTON_BG = COLORS["accent"]
-BUTTON_BG_ALT = COLORS["surface_alt"]
-BUTTON_ACTIVE = COLORS["accent_dark"]
 TITLE_FONT = FONTS["section"]
 BODY_FONT = FONTS["body"]
 
@@ -24,37 +20,40 @@ def _center_child_window(parent, window, width, height):
 
 
 def _build_dialog(parent, title, message, width, height, buttons, default=None):
+    dialog_bg = COLORS["surface"]
+    text_color = COLORS["text"]
     dialog = tk.Toplevel(parent)
     dialog.title(title)
     dialog.transient(parent)
     dialog.grab_set()
-    dialog.configure(bg=DIALOG_BG)
+    dialog.configure(bg=dialog_bg)
+    apply_titlebar_color(dialog)
     _center_child_window(parent, dialog, width, height)
 
     result = {"value": default}
 
-    container = tk.Frame(dialog, bg=DIALOG_BG, padx=16, pady=14)
+    container = tk.Frame(dialog, bg=dialog_bg, padx=16, pady=14)
     container.pack(fill="both", expand=True)
 
     tk.Label(
         container,
         text=title,
-        bg=DIALOG_BG,
-        fg=TEXT_COLOR,
+        bg=dialog_bg,
+        fg=text_color,
         font=TITLE_FONT,
     ).pack(anchor="w", pady=(0, 10))
 
     tk.Label(
         container,
         text=message,
-        bg=DIALOG_BG,
-        fg=TEXT_COLOR,
+        bg=dialog_bg,
+        fg=text_color,
         font=BODY_FONT,
         wraplength=width - 32,
         justify="left",
     ).pack(anchor="w")
 
-    buttons_frame = tk.Frame(container, bg=DIALOG_BG)
+    buttons_frame = tk.Frame(container, bg=dialog_bg)
     buttons_frame.pack(fill="x", pady=(14, 0))
 
     def make_cmd(value, cmd=None):
@@ -149,31 +148,33 @@ def ask_yes_no(parent, title, message, yes_text="Yes", no_text="No"):
 
 
 def prompt_string(parent, title, message, initial_value=""):
+    dialog_bg = COLORS["surface"]
     dialog = tk.Toplevel(parent)
     dialog.title(title)
     dialog.transient(parent)
     dialog.grab_set()
-    dialog.configure(bg=DIALOG_BG)
+    dialog.configure(bg=dialog_bg)
+    apply_titlebar_color(dialog)
     _center_child_window(parent, dialog, 430, 210)
 
     result = {"value": None}
 
-    container = tk.Frame(dialog, bg=DIALOG_BG, padx=16, pady=14)
+    container = tk.Frame(dialog, bg=dialog_bg, padx=16, pady=14)
     container.pack(fill="both", expand=True)
 
     tk.Label(
         container,
         text=title,
-        bg=DIALOG_BG,
-        fg=TEXT_COLOR,
+        bg=dialog_bg,
+        fg=COLORS["text"],
         font=TITLE_FONT,
     ).pack(anchor="w", pady=(0, 10))
 
     tk.Label(
         container,
         text=message,
-        bg=DIALOG_BG,
-        fg=TEXT_COLOR,
+        bg=dialog_bg,
+        fg=COLORS["text"],
         font=BODY_FONT,
     ).pack(anchor="w")
 
@@ -193,7 +194,7 @@ def prompt_string(parent, title, message, initial_value=""):
     entry.pack(fill="x", pady=(6, 12), ipady=5)
     entry.focus_set()
 
-    buttons = tk.Frame(container, bg=DIALOG_BG)
+    buttons = tk.Frame(container, bg=dialog_bg)
     buttons.pack(fill="x")
 
     def submit():

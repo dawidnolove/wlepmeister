@@ -9,7 +9,7 @@ from PIL import Image, ImageOps, ImageTk
 from .db import create_user, get_user_profile, login_user, update_user_profile, user_exists
 from .theme_colors import COLORS, FONTS
 from .ui_dialogs import show_error, show_info
-from .ui_theme import build_button
+from .ui_theme import apply_titlebar_color, build_button
 
 LOGIN_WINDOW_WIDTH = 350
 LOGIN_WINDOW_HEIGHT = 260
@@ -21,12 +21,6 @@ PROFILE_WINDOW_HEIGHT = 420
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 PHONE_RE = re.compile(r"^\+?[0-9][0-9\s()\-]{5,}$")
 
-_DIALOG_BG = COLORS["surface"]
-_TEXT = COLORS["text"]
-_MUTED = COLORS["muted"]
-_ENTRY_BG = COLORS["surface_alt"]
-_BTN_BG = COLORS["accent"]
-_BTN_ACTIVE = COLORS["accent_dark"]
 _TITLE_FONT = FONTS["section"]
 _BODY_FONT = FONTS["body"]
 
@@ -45,33 +39,35 @@ class AuthUIMixin:
     def open_login_window(self):
         login_window = tk.Toplevel(self.okno)
         login_window.title("Login")
-        login_window.configure(bg=_DIALOG_BG)
+        dialog_bg = COLORS["surface"]
+        login_window.configure(bg=dialog_bg)
+        apply_titlebar_color(login_window)
         self._center_child_window(login_window, LOGIN_WINDOW_WIDTH, LOGIN_WINDOW_HEIGHT)
 
-        main_frame = tk.Frame(login_window, padx=30, pady=20, bg=_DIALOG_BG)
+        main_frame = tk.Frame(login_window, padx=30, pady=20, bg=dialog_bg)
         main_frame.pack(expand=True, fill="both")
 
         tk.Label(
             main_frame,
             text="Login",
             font=_TITLE_FONT,
-            bg=_DIALOG_BG,
-            fg=_TEXT,
+            bg=dialog_bg,
+            fg=COLORS["text"],
         ).pack(pady=(0, 12))
         tk.Label(
             main_frame,
             text="Username:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         username_entry = tk.Entry(
             main_frame,
             font=FONTS["body"],
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -84,8 +80,8 @@ class AuthUIMixin:
             main_frame,
             text="Password:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         password_entry = tk.Entry(
@@ -93,8 +89,8 @@ class AuthUIMixin:
             show="*",
             font=FONTS["body"],
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -131,33 +127,35 @@ class AuthUIMixin:
     def open_register_window(self):
         register_window = tk.Toplevel(self.okno)
         register_window.title("Register")
-        register_window.configure(bg=_DIALOG_BG)
+        dialog_bg = COLORS["surface"]
+        register_window.configure(bg=dialog_bg)
+        apply_titlebar_color(register_window)
         self._center_child_window(register_window, REGISTER_WINDOW_WIDTH, REGISTER_WINDOW_HEIGHT)
 
-        main_frame = tk.Frame(register_window, padx=30, pady=20, bg=_DIALOG_BG)
+        main_frame = tk.Frame(register_window, padx=30, pady=20, bg=dialog_bg)
         main_frame.pack(expand=True, fill="both")
 
         tk.Label(
             main_frame,
             text="Register",
             font=_TITLE_FONT,
-            bg=_DIALOG_BG,
-            fg=_TEXT,
+            bg=dialog_bg,
+            fg=COLORS["text"],
         ).pack(pady=(0, 20))
         tk.Label(
             main_frame,
             text="Username:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         username_entry = tk.Entry(
             main_frame,
             font=FONTS["body"],
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -170,8 +168,8 @@ class AuthUIMixin:
             main_frame,
             text="Password:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         password_entry = tk.Entry(
@@ -179,8 +177,8 @@ class AuthUIMixin:
             show="*",
             font=FONTS["body"],
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -225,20 +223,22 @@ class AuthUIMixin:
         profile_window.title("User profile")
         profile_window.transient(self.okno)
         profile_window.grab_set()
-        profile_window.configure(bg=_DIALOG_BG)
+        dialog_bg = COLORS["surface"]
+        profile_window.configure(bg=dialog_bg)
+        apply_titlebar_color(profile_window)
         self._center_child_window(profile_window, PROFILE_WINDOW_WIDTH, PROFILE_WINDOW_HEIGHT)
 
-        outer = tk.Frame(profile_window, bg=_DIALOG_BG)
+        outer = tk.Frame(profile_window, bg=dialog_bg)
         outer.pack(expand=True, fill="both")
 
-        canvas = tk.Canvas(outer, bg=_DIALOG_BG, highlightthickness=0)
+        canvas = tk.Canvas(outer, bg=dialog_bg, highlightthickness=0)
         scrollbar = tk.Scrollbar(outer, orient="vertical", command=canvas.yview)
         canvas.configure(yscrollcommand=scrollbar.set)
 
         scrollbar.pack(side="right", fill="y")
         canvas.pack(side="left", fill="both", expand=True)
 
-        main_frame = tk.Frame(canvas, padx=24, pady=18, bg=_DIALOG_BG)
+        main_frame = tk.Frame(canvas, padx=24, pady=18, bg=dialog_bg)
         canvas_window = canvas.create_window((0, 0), window=main_frame, anchor="nw")
 
         def _on_frame_configure(_event=None):
@@ -259,25 +259,25 @@ class AuthUIMixin:
             main_frame,
             text="Profile",
             font=_TITLE_FONT,
-            bg=_DIALOG_BG,
-            fg=_TEXT,
+            bg=dialog_bg,
+            fg=COLORS["text"],
         ).pack(anchor="w", pady=(0, 12))
 
         tk.Label(
             main_frame,
             text=f"Username: {self.current_user}",
             font=_BODY_FONT,
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
         ).pack(anchor="w", pady=(0, 10))
 
-        content = tk.Frame(main_frame, bg=_DIALOG_BG)
+        content = tk.Frame(main_frame, bg=dialog_bg)
         content.pack(fill="both", expand=True)
 
-        left = tk.Frame(content, bg=_DIALOG_BG)
+        left = tk.Frame(content, bg=dialog_bg)
         left.pack(side="left", fill="y", padx=(0, 18))
 
-        avatar_label = tk.Label(left, bg=_DIALOG_BG)
+        avatar_label = tk.Label(left, bg=dialog_bg)
         avatar_label.pack(pady=(0, 8))
 
         avatar_image_ref = {"image": None}
@@ -285,7 +285,7 @@ class AuthUIMixin:
 
         def render_avatar(b64_value):
             if not b64_value:
-                avatar_label.configure(text="No photo", fg=_MUTED, font=_BODY_FONT, image="")
+                avatar_label.configure(text="No photo", fg=COLORS["muted"], font=_BODY_FONT, image="")
                 avatar_image_ref["image"] = None
                 return
             try:
@@ -294,7 +294,7 @@ class AuthUIMixin:
                 image = image.resize((128, 128), Image.LANCZOS)
                 photo = ImageTk.PhotoImage(image)
             except Exception:
-                avatar_label.configure(text="Invalid photo", fg=_MUTED, font=_BODY_FONT, image="")
+                avatar_label.configure(text="Invalid photo", fg=COLORS["muted"], font=_BODY_FONT, image="")
                 avatar_image_ref["image"] = None
                 return
             avatar_image_ref["image"] = photo
@@ -335,15 +335,15 @@ class AuthUIMixin:
             variant="secondary",
         ).pack(pady=(4, 0))
 
-        right = tk.Frame(content, bg=_DIALOG_BG)
+        right = tk.Frame(content, bg=dialog_bg)
         right.pack(side="left", fill="both", expand=True)
 
         tk.Label(
             right,
             text="Email:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         email_var = tk.StringVar(value=profile.get("email") or "")
@@ -352,8 +352,8 @@ class AuthUIMixin:
             textvariable=email_var,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -365,8 +365,8 @@ class AuthUIMixin:
             right,
             text="First name:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         first_name_var = tk.StringVar(value=profile.get("first_name") or "")
@@ -375,8 +375,8 @@ class AuthUIMixin:
             textvariable=first_name_var,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -388,8 +388,8 @@ class AuthUIMixin:
             right,
             text="Last name:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         last_name_var = tk.StringVar(value=profile.get("last_name") or "")
@@ -398,8 +398,8 @@ class AuthUIMixin:
             textvariable=last_name_var,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -411,8 +411,8 @@ class AuthUIMixin:
             right,
             text="Phone number:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         phone_var = tk.StringVar(value=profile.get("phone") or "")
@@ -421,8 +421,8 @@ class AuthUIMixin:
             textvariable=phone_var,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -434,8 +434,8 @@ class AuthUIMixin:
             right,
             text="Bio:",
             anchor="w",
-            bg=_DIALOG_BG,
-            fg=_MUTED,
+            bg=dialog_bg,
+            fg=COLORS["muted"],
             font=_BODY_FONT,
         ).pack(fill="x")
         bio_text = tk.Text(
@@ -443,8 +443,8 @@ class AuthUIMixin:
             height=6,
             font=_BODY_FONT,
             relief="flat",
-            bg=_ENTRY_BG,
-            fg=_TEXT,
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
             insertbackground=COLORS["accent"],
             highlightthickness=1,
             highlightbackground=COLORS["border"],
@@ -454,7 +454,7 @@ class AuthUIMixin:
         bio_text.pack(fill="both", expand=True, pady=(4, 12))
         bio_text.insert("1.0", profile.get("bio") or "")
 
-        buttons = tk.Frame(main_frame, bg=_DIALOG_BG)
+        buttons = tk.Frame(main_frame, bg=dialog_bg)
         buttons.pack(fill="x", pady=(6, 0))
 
         def save_profile():
