@@ -1,4 +1,4 @@
-# Contributing to wlepmeister
+# Contributing to Wlepmeister
 Thank you for considering contributing to this project.
 wlepmeister is a focused, technical tool — contributions should stay clean, scoped, and purposeful.
 
