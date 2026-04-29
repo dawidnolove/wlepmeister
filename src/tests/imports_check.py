@@ -1,8 +1,16 @@
-import wlepmeister
-from wlepmeister.src import main
+import unittest
 
-def test_import():
-    assert wlepmeister.__version__ 
+try:
+    import wlepmeister
+    from wlepmeister import main
+except ModuleNotFoundError:
+    import src as wlepmeister
+    from src import main
 
-def test_main_function():
-    assert callable(main.main)
+
+class ImportTests(unittest.TestCase):
+    def test_import(self):
+        self.assertTrue(wlepmeister.__version__)
+
+    def test_main_function(self):
+        self.assertTrue(callable(main.main))

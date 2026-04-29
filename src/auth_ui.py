@@ -6,7 +6,15 @@ from tkinter import filedialog
 
 from PIL import Image, ImageOps, ImageTk
 
-from .db import create_user, get_user_profile, login_user, update_user_profile, user_exists
+from .db import (
+    create_user,
+    get_db_status_message,
+    get_user_profile,
+    is_db_available,
+    login_user,
+    update_user_profile,
+    user_exists,
+)
 from .theme_colors import COLORS, FONTS
 from .ui_dialogs import show_error, show_info
 from .ui_theme import apply_titlebar_color, build_button
@@ -14,7 +22,7 @@ from .ui_theme import apply_titlebar_color, build_button
 LOGIN_WINDOW_WIDTH = 350
 LOGIN_WINDOW_HEIGHT = 260
 REGISTER_WINDOW_WIDTH = 350
-REGISTER_WINDOW_HEIGHT = 260
+REGISTER_WINDOW_HEIGHT = 340
 PROFILE_WINDOW_WIDTH = 520
 PROFILE_WINDOW_HEIGHT = 420
 
@@ -27,16 +35,21 @@ _BODY_FONT = FONTS["body"]
 
 class AuthUIMixin:
     def _center_child_window(self, window, width, height):
+        self.okno.update_idletasks()
         main_x = self.okno.winfo_x()
         main_y = self.okno.winfo_y()
-        main_width = self.okno.winfo_width()
-        main_height = self.okno.winfo_height()
+        main_width = max(self.okno.winfo_width(), width)
+        main_height = max(self.okno.winfo_height(), height)
         center_x = main_x + (main_width // 2) - (width // 2)
         center_y = main_y + (main_height // 2) - (height // 2)
         window.geometry(f"{width}x{height}+{center_x}+{center_y}")
         window.resizable(False, False)
 
     def open_login_window(self):
+        if not is_db_available():
+            show_error(self.okno, "Account unavailable", get_db_status_message())
+            return
+
         login_window = tk.Toplevel(self.okno)
         login_window.title("Login")
         dialog_bg = COLORS["surface"]
@@ -125,6 +138,10 @@ class AuthUIMixin:
         login_window.bind("<Return>", lambda _event: attempt_login())
 
     def open_register_window(self):
+        if not is_db_available():
+            show_error(self.okno, "Account unavailable", get_db_status_message())
+            return
+
         register_window = tk.Toplevel(self.okno)
         register_window.title("Register")
         dialog_bg = COLORS["surface"]
@@ -186,11 +203,40 @@ class AuthUIMixin:
         )
         password_entry.pack(fill="x", pady=(2, 20), ipady=5)
 
+        tk.Label(
+            main_frame,
+            text="Confirm password:",
+            anchor="w",
+            bg=dialog_bg,
+            fg=COLORS["muted"],
+            font=_BODY_FONT,
+        ).pack(fill="x")
+        confirm_password_entry = tk.Entry(
+            main_frame,
+            show="*",
+            font=FONTS["body"],
+            relief="flat",
+            bg=COLORS["surface_alt"],
+            fg=COLORS["text"],
+            insertbackground=COLORS["accent"],
+            highlightthickness=1,
+            highlightbackground=COLORS["border"],
+            highlightcolor=COLORS["border_focus"],
+        )
+        confirm_password_entry.pack(fill="x", pady=(2, 14), ipady=5)
+
         def attempt_register():
             username = username_entry.get().strip()
             password = password_entry.get()
+            confirm_password = confirm_password_entry.get()
             if not username or not password:
                 show_error(self.okno, "Error", "All fields required")
+                return
+            if len(password) < 8:
+                show_error(self.okno, "Error", "Password must be at least 8 characters.")
+                return
+            if password != confirm_password:
+                show_error(self.okno, "Error", "Passwords do not match.")
                 return
             if user_exists(username):
                 show_error(self.okno, "Error", "Username already exists")
@@ -255,6 +301,12 @@ class AuthUIMixin:
 
         canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
+        def close_profile_window():
+            canvas.unbind_all("<MouseWheel>")
+            profile_window.destroy()
+
+        profile_window.protocol("WM_DELETE_WINDOW", close_profile_window)
+
         tk.Label(
             main_frame,
             text="Profile",
@@ -290,7 +342,8 @@ class AuthUIMixin:
                 return
             try:
                 raw = base64.b64decode(b64_value)
-                image = Image.open(io.BytesIO(raw)).convert("RGBA")
+                image = Image.open(io.BytesIO(raw))
+                image = ImageOps.exif_transpose(image).convert("RGBA")
                 image = image.resize((128, 128), Image.LANCZOS)
                 photo = ImageTk.PhotoImage(image)
             except Exception:
@@ -494,7 +547,7 @@ class AuthUIMixin:
         build_button(
             buttons,
             text="Close",
-            command=profile_window.destroy,
+            command=close_profile_window,
             width=12,
             pady=5,
             variant="secondary",

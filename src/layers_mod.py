@@ -103,6 +103,9 @@ class LayerUIMixin:
     def set_active_layer(self, layer, extend=False):
         if layer not in self.layers:
             return
+        if hasattr(self, "selected_object") and self.selected_object not in layer.objects:
+            self.selected_object = None
+            self.selected_object_layer = None
         if extend:
             selected = [item for item in self.active_layers if item in self.layers]
             if layer in selected:
@@ -161,7 +164,7 @@ class LayerUIMixin:
 
         confirm = ask_yes_no(
             self.okno,
-            "Potwierdzenie usuniecia",
+            "Delete layer",
             f"You are about to delete current layer:\n\n'{layer.name}' ?",
             yes_text="Yes",
             no_text="No",
@@ -169,6 +172,10 @@ class LayerUIMixin:
 
         if not confirm:
             return
+
+        if getattr(self, "selected_object_layer", None) == layer:
+            self.selected_object = None
+            self.selected_object_layer = None
 
         self.layers.remove(layer)
 
@@ -185,6 +192,9 @@ class LayerUIMixin:
 
     def toggle_layer_visibility(self, layer):
         layer.visible = not layer.visible
+        if not layer.visible and getattr(self, "selected_object_layer", None) == layer:
+            self.selected_object = None
+            self.selected_object_layer = None
         self.refresh_layers_ui()
         self._request_canvas_redraw()
 
@@ -251,6 +261,8 @@ class LayerUIMixin:
         self.layers.insert(first_index, merged_layer)
         self.active_layer = merged_layer
         self.active_layers = [merged_layer]
+        self.selected_object = merged_layer.objects[0] if merged_layer.objects else None
+        self.selected_object_layer = merged_layer if self.selected_object else None
         self.refresh_layers_ui()
         self._request_canvas_redraw()
         if hasattr(self, "show_message"):
@@ -498,7 +510,7 @@ class LayerUIMixin:
             command=lambda: self.move_active_layer(LAYER_NUDGE_STEP, 0),
         )
         move_right_btn.pack(side="right")
-        Tooltip(move_right_btn, "To the right by 1px")
+        Tooltip(move_right_btn, "Move layer right by 10px")
 
         move_left_btn = tk.Button(
             header,
@@ -515,7 +527,7 @@ class LayerUIMixin:
             command=lambda: self.move_active_layer(-LAYER_NUDGE_STEP, 0),
         )
         move_left_btn.pack(side="right")
-        Tooltip(move_left_btn, "To the right by 1px")
+        Tooltip(move_left_btn, "Move layer left by 10px")
 
         self.layers_container = tk.Frame(self.left_panel, bg=COLORS["panel"])
         self.layers_container.pack(fill="both", expand=True)

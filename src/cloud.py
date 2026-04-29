@@ -7,6 +7,8 @@ from PIL import Image
 from .db import (
     add_favorite_project,
     delete_user_cloud_project,
+    get_db_status_message,
+    is_db_available,
     list_user_cloud_projects,
     load_user_cloud_project,
     remove_favorite_project,
@@ -151,6 +153,9 @@ class CloudUIMixin:
     def save_project_to_cloud(self):
         if not self.current_user:
             show_warning(self.okno, "Login required", "Log in first to save project in cloud.")
+            return
+        if not is_db_available():
+            show_warning(self.okno, "Cloud unavailable", get_db_status_message())
             return
 
         project_name = self._ask_cloud_project_name()
@@ -459,6 +464,8 @@ class CloudUIMixin:
             loaded_layers.append(layer)
 
         self.layers = loaded_layers
+        self.selected_object = None
+        self.selected_object_layer = None
         if not self.layers:
             self.add_layer()
             return
@@ -470,6 +477,9 @@ class CloudUIMixin:
     def open_project_from_cloud(self):
         if not self.current_user:
             show_warning(self.okno, "Login required", "Log in first to open project from cloud.")
+            return
+        if not is_db_available():
+            show_warning(self.okno, "Cloud unavailable", get_db_status_message())
             return
 
         def load_projects():

@@ -25,8 +25,8 @@ DARK_COLORS = {
     "text_inverse":   "#0d1117",
 
     # accent
-    "accent":         "#7c4dff",
-    "accent_dark":    "#5e35b1",
+    "accent":         "#b33838",
+    "accent_dark":    "#791912",
     "accent_soft":    "#2a1f4f",
 
     # secondary accent
@@ -35,7 +35,7 @@ DARK_COLORS = {
 
     # borders
     "border":         "#2d3550",
-    "border_focus":   "#7c4dff",
+    "border_focus":   "#b33838",
 
     # status
     "success":        "#00e676",
@@ -48,7 +48,7 @@ DARK_COLORS = {
     "toast_text":     "#00e5ff",
 
     # list selection
-    "select_bg":      "#5e35b1",
+    "select_bg":      "#b33838",
     "select_fg":      "#ffffff",
 
     # layer panel states

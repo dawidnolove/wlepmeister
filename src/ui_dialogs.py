@@ -11,8 +11,8 @@ def _center_child_window(parent, window, width, height):
     parent.update_idletasks()
     main_x = parent.winfo_x()
     main_y = parent.winfo_y()
-    main_width = parent.winfo_width()
-    main_height = parent.winfo_height()
+    main_width = max(parent.winfo_width(), width)
+    main_height = max(parent.winfo_height(), height)
     center_x = main_x + (main_width // 2) - (width // 2)
     center_y = main_y + (main_height // 2) - (height // 2)
     window.geometry(f"{width}x{height}+{center_x}+{center_y}")
@@ -250,4 +250,11 @@ def show_toast(parent, text, duration=2000):
         pady=6,
     )
     message.place(relx=1.0, rely=1.0, anchor="se")
-    parent.after(duration, message.destroy)
+
+    def destroy_message():
+        try:
+            message.destroy()
+        except tk.TclError:
+            pass
+
+    parent.after(duration, destroy_message)

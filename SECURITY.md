@@ -2,16 +2,17 @@
 
 ## Supported Versions
 
-Currently supported and developed:
+Currently supported and actively developed:
 
 | Version | Supported          | Release Date |
 | ------- | ------------------ | ------------ |
-| 4.32    | :white_check_mark: | 29-Apr-30.26 |
-| 31.4    | :x:                | 28-Apr-30.26 |
-| 19.3    | :x:                | 19-Mar.26    |
-| 9.12    | :x:                | 9-Dec.25     |
+| 4.32    | :white_check_mark: | 2026-04-29   |
+| 31.4    | :x:                | 2026-04-28   |
+| 19.3    | :x:                | 2026-03-19   |
+| 9.12    | :x:                | 2025-12-09   |
 
 ## Reporting a Vulnerability
 
-Updates so far have been provided monthly. Our app is not safe and we do not recommend using passwords that have been used in other accounts.
-If the vulnerability occurs, feel free to reach us by leaving a follow and a private message.
+Please report vulnerabilities through the project issue tracker or by contacting the maintainers privately when sensitive details are involved.
+
+Do not reuse passwords from other services. Current builds hash newly created passwords and migrate legacy plain-text passwords after a successful login.

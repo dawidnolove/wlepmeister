@@ -4,7 +4,7 @@
 
 #  WLEPMEISTER
 
-**A clean Python-powered project with a live showcase, simple setup, and source code ready to run locally.**
+**A Python desktop editor for composing graphics, posters, stickers, and simple brand assets with layers and cloud project support.**
 
 <br />
 
@@ -36,6 +36,8 @@ pip install -U wlepmeister
 python -m wlepmeister
 ```
 
+For cloud login and project sync, set `MONGO_URI` before launching the app. Without it, WlepMeister still opens locally and shows a clear message when account or cloud features are selected.
+
 
 > [!TIP]
 > Want to see the pitch deck immediately? Visit the live version: **[wlepmeister.great-site.net](https://wlepmeister.great-site.net/)**
@@ -44,9 +46,9 @@ python -m wlepmeister
 
 ## About
 
-**WlepMeister** is a Python-based project created by [@dawidnolove](https://github.com/dawidnolove) & [@Mi3dzi4n](https://github.com/Mi3dzi4n) & [@Kubiarek](https://github.com/Kubiarek)
+**WlepMeister** is a Python-based project created by [@dawidnolove](https://github.com/dawidnolove), [@Mi3dzi4n](https://github.com/Mi3dzi4n), and [@Kubiarek](https://github.com/Kubiarek).
 
-It is designed to help you create a variety of graphics, posters or even brand logos. Full theme customization and range of new features making it the most efficient and intuitve, leaving Paint far behind. We conquered the ability to move each object even after pasting.  
+It helps you create graphics, posters, stickers, and simple logos with movable imported images, layer controls, dark and light themes, and export to PNG, JPG, or SVG.
   
 The repository contains a straightforward Python entry point located at:
 

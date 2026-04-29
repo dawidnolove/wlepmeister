@@ -1,20 +1,27 @@
 ﻿import os
+import hashlib
+import hmac
 import platform
+import secrets
 import socket
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-import os
 
-# from dotenv import load_dotenv
-from pymongo import MongoClient
-from pymongo.errors import CollectionInvalid
-from pymongo.errors import ConnectionFailure, PyMongoError
+try:
+    from pymongo import MongoClient
+    from pymongo.errors import CollectionInvalid
+    from pymongo.errors import ConnectionFailure, PyMongoError
+except ImportError:
+    MongoClient = None
+    CollectionInvalid = Exception
+    ConnectionFailure = Exception
+    PyMongoError = Exception
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MONGO_URI = os.getenv(
-    "MONGO_URI", 
-    "mongodb+srv://wlepyuser:wlepyhaslo@wlepmaister.5hikzgm.mongodb.net/?appName=WlepMaister"
+    "MONGO_URI",
+    "mongodb+srv://wlepyuser:wlepyhaslo@wlepmaister.5hikzgm.mongodb.net/?appName=WlepMaister",
 )
 
 CLIENT = None
@@ -24,13 +31,16 @@ SESSIONS_COLLECTION = None
 PROJECTS_DB = None
 USER_FOLDERS_COLLECTION = None
 CLOUD_PROJECTS_COLLECTION = None
+DB_STATUS_MESSAGE = "Cloud features are unavailable because MongoDB is not configured."
 
 PROJECTS_DB_NAME = "wlepmeister_projects"
 USER_FOLDERS_COLLECTION_NAME = "user"
 CLOUD_PROJECTS_COLLECTION_NAME = "cloud_projects"
 
-if not MONGO_URI:
-    print("Could not connect to MongoDB: MONGO_URI env var is not set.")
+if MongoClient is None:
+    DB_STATUS_MESSAGE = "Cloud features are unavailable because pymongo is not installed."
+elif not MONGO_URI:
+    DB_STATUS_MESSAGE = "Cloud features are unavailable because MONGO_URI is not configured."
 else:
     try:
         CLIENT = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
@@ -54,13 +64,51 @@ else:
             unique=True,
         )
         CLOUD_PROJECTS_COLLECTION.create_index([("username", 1), ("updated_at", -1)])
-        print("Connected to MongoDB")
+        DB_STATUS_MESSAGE = "Connected to MongoDB."
     except (ConnectionFailure, PyMongoError) as exc:
-        print(f"Could not connect to MongoDB: {exc.__class__.__name__}: {exc}")
+        DB_STATUS_MESSAGE = f"Could not connect to MongoDB: {exc.__class__.__name__}: {exc}"
 
 
 def _db_ready():
     return USERS_COLLECTION is not None
+
+
+def is_db_available():
+    return _db_ready()
+
+
+def get_db_status_message():
+    return DB_STATUS_MESSAGE
+
+
+def _hash_password(password):
+    iterations = 260_000
+    salt = secrets.token_hex(16)
+    password_hash = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        salt.encode("utf-8"),
+        iterations,
+    ).hex()
+    return f"pbkdf2_sha256${iterations}${salt}${password_hash}"
+
+
+def _verify_password(password, stored_hash):
+    if not password or not stored_hash:
+        return False
+    try:
+        algorithm, iterations_text, salt, expected_hash = stored_hash.split("$", 3)
+        if algorithm != "pbkdf2_sha256":
+            return False
+        actual_hash = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode("utf-8"),
+            salt.encode("utf-8"),
+            int(iterations_text),
+        ).hex()
+        return hmac.compare_digest(actual_hash, expected_hash)
+    except (TypeError, ValueError):
+        return False
 
 
 def _collect_local_ips():
@@ -117,7 +165,10 @@ def log_login_session(username):
 def user_exists(username):
     if not _db_ready() or not username:
         return False
-    return USERS_COLLECTION.find_one({"username": username}, {"_id": 1}) is not None
+    try:
+        return USERS_COLLECTION.find_one({"username": username}, {"_id": 1}) is not None
+    except PyMongoError:
+        return False
 
 
 def create_user(username, password):
@@ -125,32 +176,57 @@ def create_user(username, password):
         return False
     if user_exists(username):
         return False
-    USERS_COLLECTION.insert_one(
-        {
-            "username": username,
-            "password": password,
-            "created_at": datetime.now(timezone.utc),
-            "email": None,
-            "bio": "",
-            "avatar_b64": None,
-            "theme": "dark",
-            "first_name": "",
-            "last_name": "",
-            "phone": "",
-            "favorite_projects": [],
-        }
-    )
+    try:
+        USERS_COLLECTION.insert_one(
+            {
+                "username": username,
+                "password_hash": _hash_password(password),
+                "created_at": datetime.now(timezone.utc),
+                "email": None,
+                "bio": "",
+                "avatar_b64": None,
+                "theme": "dark",
+                "first_name": "",
+                "last_name": "",
+                "phone": "",
+                "favorite_projects": [],
+            }
+        )
+    except PyMongoError:
+        return False
     return True
 
 
 def login_user(username, password):
     if not _db_ready():
         return False
-    user = USERS_COLLECTION.find_one({"username": username, "password": password})
+    try:
+        user = USERS_COLLECTION.find_one({"username": username})
+    except PyMongoError:
+        return False
     if user is None:
         return False
-    log_login_session(username)
-    return True
+
+    if _verify_password(password, user.get("password_hash")):
+        log_login_session(username)
+        return True
+
+    legacy_password = user.get("password")
+    if legacy_password is not None and legacy_password == password:
+        try:
+            USERS_COLLECTION.update_one(
+                {"username": username},
+                {
+                    "$set": {"password_hash": _hash_password(password)},
+                    "$unset": {"password": ""},
+                },
+            )
+        except PyMongoError:
+            pass
+        log_login_session(username)
+        return True
+
+    return False
 
 
 def get_user_profile(username):
