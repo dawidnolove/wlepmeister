@@ -1,0 +1,35 @@
+Select alert: Pillow affected by out-of-bounds write when loading PSD images
+Pillow affected by out-of-bounds write when loading PSD images High Direct
+#4 opened last month • Detected in pillow (pip) • requirements.txt
+
+Select alert: FITS GZIP decompression bomb in Pillow
+FITS GZIP decompression bomb in Pillow High Direct
+#5 opened 2 weeks ago • Detected in pillow (pip) • requirements.txt
+
+Select alert: python-dotenv: Symlink following in set_key allows arbitrary file overwrite via cross-device rename fallback
+python-dotenv: Symlink following in set_key allows arbitrary file overwrite via cross-device rename fallback Moderate Direct
+#6 opened last week • Detected in python-dotenv (pip) • requirements.txt
+
+Select alert: filelock has a TOCTOU race condition which allows symlink attacks during lock file creation
+filelock has a TOCTOU race condition which allows symlink attacks during lock file creation Moderate Direct
+#1 opened last month • Detected in filelock (pip) • requirements.txt
+
+Select alert: filelock Time-of-Check-Time-of-Use (TOCTOU) Symlink Vulnerability in SoftFileLock
+filelock Time-of-Check-Time-of-Use (TOCTOU) Symlink Vulnerability in SoftFileLock Moderate Direct
+#3 opened last month • Detected in filelock (pip) • requirements.txt
+  
+Select alert: LIEF is vulnerable to segmentation fault
+LIEF is vulnerable to segmentation fault Low Direct
+#2 opened last month • Detected in lief (pip) • requirements.txt
+
+MongoDB Atlas Database URI with credentials
+mongodb+srv://wlepyuser:wlepyhaslo@wlepmaister.5hikzgm.mongodb.net/?appName=WlepMaister
+Public leak
+#2 openedon Mar 18
+• Detected secret in URI:1
+
+MongoDB Atlas Database URI with credentials
+mongodb+srv://wlepyuser:BazaDanych1.@wlepmaister.5hikzgm.mongodb.net/?appName=WlepMaister
+Public leak
+#1 openedon Feb 25
+• Detected secret in src/db.py:8
