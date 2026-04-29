@@ -1,31 +1,16 @@
-# root
-include LICENSE
-include README.md
-include SECURITY.md
-include CODE_OF_CONDUCT.md
-include CONTRIBUTING.md
 include *.md
+include LICENSE
 include pyproject.toml
 include requirements.txt
 include issues.txt
-include MANIFEST.in
-# icons, docs
+recursive-include src *
 recursive-include media *
 recursive-include doc *
-# source code
-recursive-include src *
 recursive-include dev *.py
-
-
 prune build
 prune dist
-prune tox.ini
-prune .git
-prune .tox
-prune .venv
 prune __pycache__
 prune *.pyc
-prune *.o
+prune *.pyo
 prune .github
-
 exclude main.spec
