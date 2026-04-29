@@ -5,7 +5,7 @@ title: ''
 labels: ''
 
 ---
-
+In case of a pull request of a feature, briefly descirbe the idea, and impementation. Do not ommit comments or documentation.
 ### Related Issue
 Fixes #ID
 
