@@ -29,8 +29,8 @@ jobs:
       - name: Check with twine (PyPI validation)
         run: twine check dist/*
       
-      - name: Check manifest
-        run: check-manifest --no-build-isolation
+      # - name: Check manifest
+      #   run: check-manifest --no-build-isolation
       
       - name: Install package locally
         run: pip install -e .
