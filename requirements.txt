@@ -24,4 +24,4 @@ python-msilib==0.5.0
 pywin32-ctypes==0.2.3
 setuptools==80.9.0
 striprtf==0.0.29
-Werkzeug==3.1.6
+Werkzeug==3.1.8
