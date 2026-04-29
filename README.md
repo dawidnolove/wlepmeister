@@ -29,13 +29,13 @@
 
 ## Execution
 
-<div align="center">
+
 
 ```txt
-pip install wlepmeister && pip install --upgrade wlepmeister
+pip install -U wlepmeister
 python -m wlepmeister
 ```
-</div>
+
 
 > [!TIP]
 > Want to see the pitch deck immediately? Visit the live version: **[wlepmeister.great-site.net](https://wlepmeister.great-site.net/)**
