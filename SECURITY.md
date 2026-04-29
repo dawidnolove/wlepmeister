@@ -4,10 +4,11 @@
 
 Currently supported and developed:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 19.x    | :white_check_mark: |
-| 12.x    | :x:                |
+| Version | Supported          | Release Date |
+| ------- | ------------------ | ------------ |
+| 31.4    | :white_check_mark: | 28-Apr-30.26 |
+| 19.3    | :x:                | 19-Mar.26    |
+| 9.12    | :x:                | 9-Dec.25     |
 
 ## Reporting a Vulnerability
 
