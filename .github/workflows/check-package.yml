@@ -30,7 +30,8 @@ jobs:
         run: twine check dist/*
       
       - name: Check manifest
-        run: check-manifest --no-build-isolation
+        run: check-manifest
+        # run: check-manifest --no-build-isolation
       
       - name: Install package locally
         run: pip install -e .
