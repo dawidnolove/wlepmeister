@@ -10,7 +10,7 @@ packages = ["wlepmeister"]
 
 [project]
 name = "wlepmeister"
-version = "31.4"
+version = "4.32"
 description = "description"
 authors = [{name = "dawidnolove", email = "dawpi007@gmail.com"}]
 readme = "README.md"
