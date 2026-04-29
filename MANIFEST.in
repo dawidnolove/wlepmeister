@@ -1,0 +1,5 @@
+recursive-include . *.md *.rst LICENSE README*
+global-exclude *.pyc __pycache__ *.so *.o build dist
+global-exclude .git *~
+prune .git
+prune .tox
