@@ -1,5 +1,27 @@
-recursive-include . *.md *.rst LICENSE README*
-global-exclude *.pyc __pycache__ *.so *.o build dist
-global-exclude .git *~
+# root
+include LICENSE
+include README.md
+include SECURITY.md
+include pyproject.toml
+include requirements.txt
+include issues.txt
+include MANIFEST.in
+# icons, docs
+recursive-include media *
+recursive-include doc *
+# source code
+recursive-include src *
+
+
+prune build
+prune dist
+prune tox.ini
 prune .git
 prune .tox
+prune .venv
+prune __pycache__
+prune *.pyc
+prune *.o
+prune .github
+
+exclude main.spec
