@@ -1,6 +1,9 @@
 # root
 include LICENSE
-include *.md
+include README.md
+include SECURITY.md
+include CODE_OF_CONDUCT.md
+include CONTRIBUTING.md
 include pyproject.toml
 include requirements.txt
 include issues.txt
