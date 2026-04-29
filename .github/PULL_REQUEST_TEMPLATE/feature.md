@@ -1,5 +1,11 @@
-## Feature Summary
-Short description of the new feature.
+---
+name: Pull request
+about: Description
+title: ''
+labels: ''
+assignees: ''
+
+---
 
 ### Related Issue
 Closes #ID
