@@ -6,7 +6,8 @@ Currently supported and developed:
 
 | Version | Supported          | Release Date |
 | ------- | ------------------ | ------------ |
-| 31.4    | :white_check_mark: | 28-Apr-30.26 |
+| 4.32    | :white_check_mark: | 29-Apr-30.26 |
+| 31.4    | :x:                | 28-Apr-30.26 |
 | 19.3    | :x:                | 19-Mar.26    |
 | 9.12    | :x:                | 9-Dec.25     |
 
