@@ -54,3 +54,19 @@ The repository contains a straightforward Python entry point located at:
 
 ```txt
 src/main.py
+
+---
+## Quick Mechanics Reference
+
+- **Selecting Layer:** Click on any layer/image.
+- **Moving Layer:** Click and drag the selected layer anywhere.
+- **Resizing Layer:** Click and drag any corner of a selected layer.
+- **Rotating Layer:** Double-click any corner of a selected layer, then click and drag on the image to rotate.
+- **Merging Layers:** Hold `Alt` key and click multiple layers, then use the merge action.
+- **Deleting Layer:** Select a layer and press the `Delete` key.
+- **Changing Layer Order:** Drag layer up/down in the layer list.
+- **Login:** Use the 'Login' button on startup or in the user menu for account features.
+- **Change Theme:** Click the theme icon/button to switch between dark and light mode.
+- **Exporting:** Use the 'Export' button to save graphic as PNG, JPG, or SVG.
+- **Cloud Sync:** Login first, then use the sync feature for cloud save/load.
+- **Change Project/PPF:** Go to project menu and select PPF/project to load or edit.
