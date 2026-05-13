@@ -46,7 +46,7 @@ For cloud login and project sync, set `MONGO_URI` before launching the app. With
 
 ## About
 
-**WlepMeister** is a Python-based project created by [@dawidnolove](https://github.com/dawidnolove), [@Mi3dzi4n](https://github.com/Mi3dzi4n), and [@Kubiarek](https://github.com/Kubiarek).
+**Wlepmeister** is a Python-based project created by [@dawidnolove](https://github.com/dawidnolove), [@Mi3dzi4n](https://github.com/Mi3dzi4n), and [@Kubiarek](https://github.com/Kubiarek).
 
 It helps you create graphics, posters, stickers, and simple logos with movable imported images, layer controls, dark and light themes, and export to PNG, JPG, or SVG.
   
