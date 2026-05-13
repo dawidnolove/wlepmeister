@@ -8,7 +8,7 @@
 
 <br />
 
-[![Website](https://img.shields.io/badge/Website-Live-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://wlepmeister.great-site.net/)
+[![Website](https://img.shields.io/badge/Website-Live-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)]([https://wlepmeister.great-site.net/](https://dawidnolove.github.io/wlepmeister/))
 [![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Repo Size](https://img.shields.io/github/repo-size/dawidnolove/wlepmeister?style=for-the-badge&color=blue)](https://github.com/dawidnolove/wlepmeister)
 [![Last Commit](https://img.shields.io/github/last-commit/dawidnolove/wlepmeister?style=for-the-badge)](https://github.com/dawidnolove/wlepmeister/commits/main)
