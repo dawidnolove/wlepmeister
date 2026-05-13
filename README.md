@@ -54,6 +54,7 @@ The repository contains a straightforward Python entry point located at:
 
 ```txt
 src/main.py
+```
 
 ---
 ## Quick Mechanics Reference
