@@ -13,7 +13,7 @@
 [![Repo Size](https://img.shields.io/github/repo-size/dawidnolove/wlepmeister?style=for-the-badge&color=blue)](https://github.com/dawidnolove/wlepmeister)
 [![Last Commit](https://img.shields.io/github/last-commit/dawidnolove/wlepmeister?style=for-the-badge)](https://github.com/dawidnolove/wlepmeister/commits/main)
 [![Issues](https://img.shields.io/github/issues/dawidnolove/wlepmeister?style=for-the-badge)](https://github.com/dawidnolove/wlepmeister/issues)
-[![Copyright](https://img.shields.io/badge/Copyright-2025-black?style=for-the-badge)](#license)
+[![Copyright](https://img.shields.io/badge/Copyright-2026-black?style=for-the-badge)](#license)
 
 <br />
 
@@ -71,3 +71,8 @@ src/main.py
 - **Exporting:** Use the 'Export' button to save graphic as PNG, JPG, or SVG.
 - **Cloud Sync:** Login first, then use the sync feature for cloud save/load.
 - **Change Project/PPF:** Go to project menu and select PPF/project to load or edit.
+
+---
+## Top contributions
+<a href="https://github.com/dawidnolove/wlepmeister/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dawidnolove/wlepmeister" />
